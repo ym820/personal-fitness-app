@@ -7,6 +7,7 @@ import { todayView } from './views/today.js';
 import { exerciseView, libraryView } from './views/library.js';
 import { historyView, workoutDetailView } from './views/history.js';
 import { settingsView } from './views/settings.js';
+import { doneView, workoutView } from './views/workout.js';
 
 /** localStorage 能用就用；无痕模式等情况下用内存代替，并显示提示 */
 function pickStorage() {
@@ -41,6 +42,8 @@ const routes = [
   [/^#\/history$/, historyView],
   [/^#\/history\/([^/]+)$/, workoutDetailView],
   [/^#\/settings$/, settingsView],
+  [/^#\/workout$/, workoutView],
+  [/^#\/done\/([^/]+)$/, doneView],
 ];
 
 /** 详情页、设置页等高亮哪个标签 */
