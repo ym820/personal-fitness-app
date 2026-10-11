@@ -98,6 +98,17 @@
       "thumbnail": "https://i1.hdslb.com/bfs/archive/a31c9091320ddc64fa9702836941d00a3ff75b56.jpg"
     }
   ],
+  "Crunches": [
+    {
+      "platform": "bilibili",
+      "id": "BV18J4m1w76p",
+      "title": "打造立体腹肌，告别小肚腩｜卷腹这么做！",
+      "author": "ALEX健身频道",
+      "durationSeconds": 418,
+      "embeddable": false,
+      "thumbnail": "https://i0.hdslb.com/bfs/archive/fe4c60a56534016f7df73f407b4bec8551ff9ac7.jpg"
+    }
+  ],
   "Leg_Extensions": [
     {
       "platform": "bilibili",
@@ -107,6 +118,17 @@
       "durationSeconds": 462,
       "embeddable": false,
       "thumbnail": "https://i2.hdslb.com/bfs/archive/0dc8701eaa76a58a48945dd218143adc2cdfaf8b.jpg"
+    }
+  ],
+  "Seated_Leg_Curl": [
+    {
+      "platform": "bilibili",
+      "id": "BV1Hx4y1Y7TN",
+      "title": "健身房练腿指南｜坐姿腿弯举 (保姆级教程)",
+      "author": "ALEX健身频道",
+      "durationSeconds": 478,
+      "embeddable": false,
+      "thumbnail": "https://i0.hdslb.com/bfs/archive/a79e3726a8358f992f356ee64932b1931bc63990.jpg"
     }
   ],
   "Dumbbell_Lunges": [
@@ -120,6 +142,28 @@
       "thumbnail": "https://i0.hdslb.com/bfs/archive/22b46166e00c92432b1d5b54795f183e2451b8ef.jpg"
     }
   ],
+  "Standing_Calf_Raises": [
+    {
+      "platform": "bilibili",
+      "id": "BV1N7411i7Jq",
+      "title": "新手最佳的练小腿方式，你应该这么做提踵",
+      "author": "FE健身干货百科书",
+      "durationSeconds": 315,
+      "embeddable": false,
+      "thumbnail": "https://i2.hdslb.com/bfs/archive/80185cb7cde43c8d42d9e2c905301f809c3fecab.jpg"
+    }
+  ],
+  "Single_Leg_Glute_Bridge": [
+    {
+      "platform": "bilibili",
+      "id": "BV19T4y1c7c9",
+      "title": "如何增加膝盖稳定性？单腿臀桥的训练法",
+      "author": "张翔炜的运动康复",
+      "durationSeconds": 105,
+      "embeddable": false,
+      "thumbnail": "https://i2.hdslb.com/bfs/archive/1c48b4676c87ad8a1c8c5fae1b8440941f22a786.jpg"
+    }
+  ],
   "Hyperextensions_Back_Extensions": [
     {
       "platform": "bilibili",
@@ -129,6 +173,17 @@
       "durationSeconds": 414,
       "embeddable": false,
       "thumbnail": "https://i1.hdslb.com/bfs/archive/fa8744274a14e9e3aa97b39bb2b055794252c567.jpg"
+    }
+  ],
+  "Leverage_Shoulder_Press": [
+    {
+      "platform": "bilibili",
+      "id": "BV1b34y1G7rq",
+      "title": "练肩动作精讲｜坐姿推肩 (器械版)｜一个视频让你彻底明白！",
+      "author": "ALEX健身频道",
+      "durationSeconds": 644,
+      "embeddable": false,
+      "thumbnail": "https://i0.hdslb.com/bfs/archive/afe7d4074e91f42906d7b4deff52b671809d1c52.jpg"
     }
   ],
   "Side_Lateral_Raise": [
@@ -175,6 +230,28 @@
       "thumbnail": "https://i2.hdslb.com/bfs/archive/bae9b47f356a532ddcedb611175e2d9f37ccb055.jpg"
     }
   ],
+  "Incline_Push-Up": [
+    {
+      "platform": "bilibili",
+      "id": "BV1cH4y1V7sy",
+      "title": "上斜俯卧撑：初学者或肥胖人群适用，做不了标准俯卧撑就做这个吧。",
+      "author": "跟练健身Online",
+      "durationSeconds": 91,
+      "embeddable": false,
+      "thumbnail": "https://i0.hdslb.com/bfs/archive/66561c8b6f3476002048b1381e6157bfcedc8fe7.jpg"
+    }
+  ],
+  "Close-Grip_Front_Lat_Pulldown": [
+    {
+      "platform": "bilibili",
+      "id": "BV1mJ4m147mr",
+      "title": "保姆级练背教学｜高位下拉 (窄握版)",
+      "author": "ALEX健身频道",
+      "durationSeconds": 456,
+      "embeddable": false,
+      "thumbnail": "https://i2.hdslb.com/bfs/archive/a9f126ce8fca9506f750138350078093790eb7fa.jpg"
+    }
+  ],
   "Bent_Over_Two-Dumbbell_Row": [
     {
       "platform": "bilibili",
@@ -208,6 +285,17 @@
       "thumbnail": "https://i1.hdslb.com/bfs/archive/e3536b45bbe01564de07a9c27f3dfb9a9de294c8.jpg"
     }
   ],
+  "Alternate_Hammer_Curl": [
+    {
+      "platform": "bilibili",
+      "id": "BV1iJ411U72E",
+      "title": "【ZQ】如何正确地做锤式弯举？｜站姿锤式弯举讲解教学｜动作示范｜常见错误｜",
+      "author": "蔡梓强",
+      "durationSeconds": 241,
+      "embeddable": false,
+      "thumbnail": "https://i1.hdslb.com/bfs/archive/3399fc8d3d6b5374e69473b8a696aaf3c8aecbfc.jpg"
+    }
+  ],
   "Triceps_Pushdown_-_Rope_Attachment": [
     {
       "platform": "bilibili",
@@ -228,6 +316,17 @@
       "durationSeconds": 382,
       "embeddable": false,
       "thumbnail": "https://i0.hdslb.com/bfs/archive/a8a31d19aa8bfbb67d5edd34f15aef627f4a56b6.jpg"
+    }
+  ],
+  "Dead_Bug": [
+    {
+      "platform": "bilibili",
+      "id": "BV1tZ4y1q7qM",
+      "title": "腰痛，你真的会练死虫式吗？（保姆级教学）",
+      "author": "詹sir说腰痛",
+      "durationSeconds": 180,
+      "embeddable": false,
+      "thumbnail": "https://i0.hdslb.com/bfs/archive/fe37ebe6114ac39264d5cf7b1dd8cc0461cbab24.jpg"
     }
   ]
 }
