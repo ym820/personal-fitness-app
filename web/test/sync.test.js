@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { decodeBase64, encodeBase64, SyncError, syncWorkouts } from '../js/sync.js';
+import { coalesce, decodeBase64, encodeBase64, SyncError, syncWorkouts } from '../js/sync.js';
 
 const w = (id, day, extra = {}) => ({
   id, date: new Date(day * 86_400_000).toISOString(), durationSeconds: 60, templateId: 'A', sets: [], deleted: false, ...extra,
@@ -88,6 +88,17 @@ test('GitHub 上的文件坏了：报错，不覆盖', async () => {
   }
 });
 
+test('记录里的字段值不对（日期写坏、组缺少重量）：报错，不合并也不覆盖', async () => {
+  const badDate = { ...w('a', 1), date: '昨天' };
+  const badSet = { ...w('b', 1), sets: [{ exerciseId: 'Leg_Press', setIndex: 0, value: 12 }] };
+  const badDuration = { ...w('c', 1), durationSeconds: '30' };
+  for (const bad of [badDate, badSet, badDuration]) {
+    const gh = fakeGitHub({ text: fileText([bad]) });
+    await assert.rejects(run(gh, [w('x', 2)]), e => e instanceof SyncError && e.message.includes('格式不对'));
+    assert.equal(gh.state.puts.length, 0);
+  }
+});
+
 test('令牌无效、没权限、找不到仓库：给出对应提示', async () => {
   const cases = [[401, '令牌无效'], [403, '没有这个仓库的写入权限'], [500, '500']];
   for (const [status, text] of cases) {
@@ -109,4 +120,37 @@ test('没网：给出网络提示', async () => {
     syncWorkouts({ token: 'tok', repo: 'me/data', local: [], fetchFn }),
     e => e instanceof SyncError && e.message.includes('网络'),
   );
+});
+
+test('同步进行中又被调用：结束后再跑一次，且只多跑一次', async () => {
+  let runs = 0;
+  let release;
+  const sync = coalesce(async () => {
+    runs++;
+    if (runs === 1) await new Promise(r => { release = r; });
+  });
+  const first = sync();
+  const second = sync();
+  const third = sync();
+  release();
+  await Promise.all([first, second, third]);
+  assert.equal(runs, 2);
+  await sync();
+  assert.equal(runs, 3);
+});
+
+test('等待中的调用要等补跑的那次结束才算完', async () => {
+  const order = [];
+  let release;
+  let runs = 0;
+  const sync = coalesce(async () => {
+    runs++;
+    if (runs === 1) await new Promise(r => { release = r; });
+    order.push(`run${runs}`);
+  });
+  sync();
+  const waiting = sync().then(() => order.push('caller done'));
+  release();
+  await waiting;
+  assert.deepEqual(order, ['run1', 'run2', 'caller done']);
 });

@@ -71,6 +71,34 @@ export async function syncWorkouts({ token, repo, local, fetchFn = globalThis.fe
   }
 }
 
+/**
+ * 同时只跑一次 run。运行中又被调用时，等这次结束后再补跑一次（读到最新的本地记录和设置），
+ * 多次调用只补跑一次；这些调用都等补跑结束才完成。
+ */
+export function coalesce(run) {
+  let current = null;
+  let again = false;
+  const start = () => {
+    current = (async () => {
+      try {
+        await run();
+      } finally {
+        current = null;
+      }
+      if (again) {
+        again = false;
+        await start();
+      }
+    })();
+    return current;
+  };
+  return () => {
+    if (!current) return start();
+    again = true;
+    return current;
+  };
+}
+
 function parseRemote(content) {
   const bad = () => new SyncError('GitHub 上的 workouts.json 格式不对，没有覆盖它，请检查这个文件');
   let data;
@@ -79,12 +107,19 @@ function parseRemote(content) {
   } catch {
     throw bad();
   }
-  const ok = Array.isArray(data?.workouts) && data.workouts.every(
-    w => typeof w?.id === 'string' && typeof w?.date === 'string' && Array.isArray(w?.sets),
-  );
-  if (!ok) throw bad();
+  if (!Array.isArray(data?.workouts) || !data.workouts.every(validWorkout)) throw bad();
   return data.workouts;
 }
+
+/** 字段值不对的记录会让页面在格式化时出错，而且合并后会一直留在本地，所以整份文件都不接受 */
+const isNumber = v => typeof v === 'number' && Number.isFinite(v);
+const validSet = s => typeof s?.exerciseId === 'string' && isNumber(s.setIndex) && isNumber(s.value) && isNumber(s.weightLb);
+const validWorkout = w =>
+  typeof w?.id === 'string' &&
+  typeof w.date === 'string' && Number.isFinite(Date.parse(w.date)) &&
+  isNumber(w.durationSeconds) &&
+  typeof w.templateId === 'string' &&
+  Array.isArray(w.sets) && w.sets.every(validSet);
 
 function errorFor(status) {
   if (status === 401) return new SyncError('令牌无效或已过期，请在设置里重新填写');

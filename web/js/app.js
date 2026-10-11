@@ -2,7 +2,7 @@ import { html } from './dom.js';
 import { loadCatalog } from './catalog.js';
 import { createStore, memoryStorage } from './store.js';
 import { mergeWorkouts } from './merge.js';
-import { syncWorkouts } from './sync.js';
+import { coalesce, syncWorkouts } from './sync.js';
 import { todayView } from './views/today.js';
 import { exerciseView, libraryView } from './views/library.js';
 import { historyView, workoutDetailView } from './views/history.js';
@@ -68,29 +68,31 @@ function render() {
   document.body.classList.toggle('in-workout', section === 'workout');
 }
 
-let inFlight = null;
+/** 一次同步：读最新的本地记录和设置，同步后和最新的本地记录再合并一次，同步期间新存的记录不丢 */
+const runSync = coalesce(async () => {
+  const { token, repo } = app.store.loadSettings();
+  if (!token || !repo) return;
+  try {
+    const merged = await syncWorkouts({ token, repo, local: app.store.loadWorkouts() });
+    app.store.saveWorkouts(mergeWorkouts(app.store.loadWorkouts(), merged));
+    app.store.saveSyncStatus({ lastSuccessAt: new Date().toISOString(), error: null });
+  } catch (error) {
+    app.store.saveSyncStatus({ ...app.store.loadSyncStatus(), error: error.message });
+  }
+});
 
-/** 同步到 GitHub。没填令牌就什么都不做；同时只跑一个 */
+/** 同步到 GitHub。没填令牌就什么都不做；同步中又有新改动（练完、删除、换令牌）会在结束后补跑一次 */
 function syncNow() {
   const { token, repo } = app.store.loadSettings();
   if (!token || !repo) return Promise.resolve();
-  inFlight ??= (async () => {
-    app.syncing = true;
-    try {
-      const merged = await syncWorkouts({ token, repo, local: app.store.loadWorkouts() });
-      // 同步期间可能又存了新记录，和最新的本地记录再合并一次，不丢
-      app.store.saveWorkouts(mergeWorkouts(app.store.loadWorkouts(), merged));
-      app.store.saveSyncStatus({ lastSuccessAt: new Date().toISOString(), error: null });
-    } catch (error) {
-      app.store.saveSyncStatus({ ...app.store.loadSyncStatus(), error: error.message });
-    } finally {
-      app.syncing = false;
-      inFlight = null;
-      // 训练页有输入框和倒计时，不打断
-      if (!location.hash.startsWith('#/workout')) render();
-    }
-  })();
-  return inFlight;
+  app.syncing = true;
+  const done = runSync();
+  done.finally(() => {
+    app.syncing = false;
+    // 训练页有输入框和倒计时，不打断
+    if (!location.hash.startsWith('#/workout')) render();
+  });
+  return done;
 }
 
 async function start() {
