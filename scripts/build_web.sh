@@ -14,3 +14,7 @@ cp FitnessApp/Assets.xcassets/AppIcon.appiconset/AppIcon.png _site/icon.png
 # Service Worker 安装时预先缓存的文件列表
 (cd _site && find . -type f ! -name sw.js ! -name files.json | sed 's|^\./||' | sort \
   | sed 's/.*/"&"/' | paste -sd, - | sed 's/.*/[&]/') > _site/files.json
+
+# 缓存版本号：站内所有文件的校验和，内容变了才变
+version=$(cd _site && find . -type f ! -name sw.js | sort | xargs cat | cksum | cut -d' ' -f1)
+sed "s/__VERSION__/$version/" web/sw.js > _site/sw.js
