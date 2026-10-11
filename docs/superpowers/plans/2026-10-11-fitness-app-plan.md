@@ -51,24 +51,24 @@ personal-fitness-app/
 - **部署版本**：iOS 18 / watchOS 11
 - **Swift 语言模式**：App 层用 Swift 5 模式（`SWIFT_VERSION: 5.0`），避开 Swift 6 严格并发检查在 WatchConnectivity / HealthKit 回调上的大量报错。FitnessCore 用 Swift 6
 - **手表 app**：watchOS 单 target 结构（不再有 WatchKit Extension），作为 iPhone app 的伴随 app 一起安装
-- **重量单位**：kg（设计文档已定）
-- **表冠调重量**：每格 0.5 kg；调次数每格 1 次
+- **重量单位**：磅（lb），全部按磅存储和显示，不做单位换算
+- **表冠调重量**：每格 2.5 lb；调次数每格 1 次
 - **自重动作**（平板支撑、卷腹等）：`increment` 为 0，手表上不显示重量
 - **动作 id**：直接用 free-exercise-db 的 id（如 `Leg_Press`），方便以后对照原数据
 
 ### 计划里的动作对应 free-exercise-db
 
-| 设计文档 | free-exercise-db id | 加重步长 |
+| 设计文档 | free-exercise-db id | 加重步长（lb） |
 |---|---|---|
-| 腿举 | `Leg_Press` | 5 |
-| 坐姿器械推胸 | `Leverage_Chest_Press` | 5 |
-| 高位下拉 | `Wide-Grip_Lat_Pulldown` | 5 |
-| 坐姿哑铃推肩 | `Dumbbell_Shoulder_Press` | 2 |
+| 腿举 | `Leg_Press` | 10 |
+| 坐姿器械推胸 | `Leverage_Chest_Press` | 10 |
+| 高位下拉 | `Wide-Grip_Lat_Pulldown` | 10 |
+| 坐姿哑铃推肩 | `Dumbbell_Shoulder_Press` | 5 |
 | 平板支撑 | `Plank` | 0（按秒） |
-| 高脚杯深蹲 | `Goblet_Squat` | 2 |
-| 坐姿绳索划船 | `Seated_Cable_Rows` | 5 |
-| 哑铃卧推 | `Dumbbell_Bench_Press` | 2 |
-| 哑铃罗马尼亚硬拉 | `Stiff-Legged_Dumbbell_Deadlift` | 2 |
+| 高脚杯深蹲 | `Goblet_Squat` | 5 |
+| 坐姿绳索划船 | `Seated_Cable_Rows` | 10 |
+| 哑铃卧推 | `Dumbbell_Bench_Press` | 5 |
+| 哑铃罗马尼亚硬拉 | `Stiff-Legged_Dumbbell_Deadlift` | 5 |
 | 卷腹 | `Crunches` | 0 |
 
 动作库另外 20 个（都已确认库里有两张图）：`Leg_Extensions`、`Seated_Leg_Curl`、`Dumbbell_Lunges`、`Standing_Calf_Raises`、`Single_Leg_Glute_Bridge`、`Hyperextensions_Back_Extensions`、`Leverage_Shoulder_Press`、`Side_Lateral_Raise`、`Reverse_Flyes`、`Butterfly`、`Pushups`、`Incline_Push-Up`、`Close-Grip_Front_Lat_Pulldown`、`Bent_Over_Two-Dumbbell_Row`、`One-Arm_Dumbbell_Row`、`Dumbbell_Bicep_Curl`、`Alternate_Hammer_Curl`、`Triceps_Pushdown_-_Rope_Attachment`、`Cable_Crunch`、`Dead_Bug`。
@@ -212,7 +212,7 @@ personal-fitness-app/
       "推起时膝盖不要完全锁死"
     ],
     "unit": "reps",
-    "increment": 5
+    "increment": 10
   }
   ```
   `bodyPart` 取值：`legs`、`chest`、`back`、`shoulders`、`arms`、`core`，用于动作库分组。`unit` 取值：`reps` 或 `seconds`
@@ -311,7 +311,7 @@ public struct HistorySet: Hashable, Sendable {
     public let exerciseId: String
     public let setIndex: Int
     public let value: Int          // 次数或秒数
-    public let weightKg: Double
+    public let weightLb: Double
 }
 
 public struct HistoryWorkout: Sendable {
@@ -325,7 +325,7 @@ public struct TargetExercise: Codable, Hashable, Sendable {
     public let sets: Int
     public let targetMin: Int
     public let targetMax: Int
-    public let weightKg: Double?   // nil 表示第一次做，需要用户输入；自重动作为 0
+    public let weightLb: Double?   // nil 表示第一次做，需要用户输入；自重动作为 0
     public let suggestIncrease: Bool
 }
 
@@ -351,12 +351,12 @@ public enum PlanEngine {
 
 测试用例：
 
-- 没有历史 → A，所有负重动作 `weightKg == nil`，平板支撑和卷腹为 0
+- 没有历史 → A，所有负重动作 `weightLb == nil`，平板支撑和卷腹为 0
 - 最后一次是 A → B；最后一次是 B → A；历史乱序时按日期判断
-- 腿举 3 组都 12 次 @ 50 kg → 55 kg，提示加重
-- 腿举 12、12、11 次 → 50 kg，不提示
+- 腿举 3 组都 12 次 @ 100 lb → 110 lb，提示加重
+- 腿举 12、12、11 次 → 100 lb，不提示
 - 腿举只做了 2 组且都 12 次（中途结束）→ 不加重
-- 哑铃卧推全部做满 @ 10 kg → 12 kg
+- 哑铃卧推全部做满 @ 20 lb → 25 lb
 - 平板支撑全部 40 秒 → 不提示加重
 
 ---
@@ -381,7 +381,7 @@ public struct WorkoutFlow: Sendable {
     public func defaultValue() -> Int            // 预填次数：targetMax
     public func defaultWeight() -> Double?       // 本动作上一组的实际重量，没有就用目标重量
 
-    public mutating func completeSet(value: Int, weightKg: Double)
+    public mutating func completeSet(value: Int, weightLb: Double)
     public mutating func finishRest()            // 跳过休息或倒计时结束
     public mutating func endEarly()
 }
@@ -446,7 +446,7 @@ WatchConnectivity 的字典里只放 `Data`（JSON），日期用 ISO 8601。
     var exerciseId: String
     var setIndex: Int
     var value: Int
-    var weightKg: Double
+    var weightLb: Double
 }
 ```
 
@@ -510,7 +510,7 @@ WatchConnectivity 的字典里只放 `Data`（JSON），日期用 ISO 8601。
 2. **开始页** `StartView`：大字「训练 A」，下面列动作英文名，「开始」按钮 → `WorkoutManager.start()` + 创建 `WorkoutFlow`
 3. **做组页** `SetView`：
    - 顶部：中文名 + 英文名，「第 2 / 3 组」
-   - 中间两个数字：次数（或秒数）和重量，点哪个就用表冠调哪个（`.digitalCrownRotation`，重量步长 0.5，次数步长 1）。自重动作只显示次数
+   - 中间两个数字：次数（或秒数）和重量，点哪个就用表冠调哪个（`.digitalCrownRotation`，重量步长 2.5 lb，次数步长 1）。自重动作只显示次数
    - 首次做负重动作（目标重量为 nil）：重量默认 0 并高亮提示「请输入重量」
    - 「完成」按钮 → `flow.completeSet`
    - 右上角显示实时心率
