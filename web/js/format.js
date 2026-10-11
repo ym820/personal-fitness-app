@@ -27,8 +27,8 @@ const MUSCLES = {
 export const muscleZh = m => MUSCLES[m] ?? m;
 
 const formatter = options => new Intl.DateTimeFormat('zh-CN', options);
-const SHORT = formatter({ month: 'numeric', day: 'numeric', weekday: 'short' });
-const DATE_TIME = formatter({ month: 'numeric', day: 'numeric', weekday: 'short', hour: '2-digit', minute: '2-digit' });
+const SHORT = formatter({ month: 'long', day: 'numeric', weekday: 'short' });
+const DATE_TIME = formatter({ month: 'long', day: 'numeric', weekday: 'short', hour: '2-digit', minute: '2-digit' });
 const LONG = formatter({ year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 export const dateShort = iso => SHORT.format(new Date(iso));
 export const dateTime = iso => DATE_TIME.format(new Date(iso));
