@@ -1,1 +1,233 @@
-{}
+{
+  "Leg_Press": [
+    {
+      "platform": "bilibili",
+      "id": "BV1mT4y1b7Z5",
+      "title": "倒蹬详解",
+      "author": "凯圣王",
+      "durationSeconds": 425,
+      "embeddable": false,
+      "thumbnail": "https://i1.hdslb.com/bfs/archive/2eab7fc6e5f26f4a841151d78305532c47808dd5.jpg"
+    }
+  ],
+  "Leverage_Chest_Press": [
+    {
+      "platform": "bilibili",
+      "id": "BV1cUevzTEb4",
+      "title": "坐姿器械推胸详解",
+      "author": "凯圣王",
+      "durationSeconds": 703,
+      "embeddable": false,
+      "thumbnail": "https://i0.hdslb.com/bfs/archive/b3970ae9ff42659147bb4583bf5baaefbf2bec99.jpg"
+    }
+  ],
+  "Wide-Grip_Lat_Pulldown": [
+    {
+      "platform": "bilibili",
+      "id": "BV1dC4y1r7nQ",
+      "title": "高位下拉详解",
+      "author": "凯圣王",
+      "durationSeconds": 659,
+      "embeddable": false,
+      "thumbnail": "https://i1.hdslb.com/bfs/archive/68b046cfdedd7116ba1808cdb356fb486277e3ee.jpg"
+    }
+  ],
+  "Dumbbell_Shoulder_Press": [
+    {
+      "platform": "bilibili",
+      "id": "BV1uw411N7MC",
+      "title": "坐姿哑铃推肩详解",
+      "author": "凯圣王",
+      "durationSeconds": 705,
+      "embeddable": false,
+      "thumbnail": "https://i0.hdslb.com/bfs/archive/60b2348c267d0c733b34a5e1911aff72b6f52062.jpg"
+    }
+  ],
+  "Plank": [
+    {
+      "platform": "bilibili",
+      "id": "BV14w411V7Yj",
+      "title": "平板支撑详解",
+      "author": "凯圣王",
+      "durationSeconds": 330,
+      "embeddable": false,
+      "thumbnail": "https://i0.hdslb.com/bfs/archive/0da2378d19743b5b62752c47131a880c65ad401b.jpg"
+    }
+  ],
+  "Goblet_Squat": [
+    {
+      "platform": "bilibili",
+      "id": "BV1TT4y1p7YR",
+      "title": "高脚杯深蹲详解",
+      "author": "凯圣王",
+      "durationSeconds": 496,
+      "embeddable": false,
+      "thumbnail": "https://i2.hdslb.com/bfs/archive/b66a52125f947a4ce7f81ee478bc5434b012f253.jpg"
+    }
+  ],
+  "Seated_Cable_Rows": [
+    {
+      "platform": "bilibili",
+      "id": "BV1UG411k7ZM",
+      "title": "坐姿划船详解",
+      "author": "凯圣王",
+      "durationSeconds": 713,
+      "embeddable": false,
+      "thumbnail": "https://i0.hdslb.com/bfs/archive/4528cbf4103c74acc258ddb822be66a220ef4e01.jpg"
+    }
+  ],
+  "Dumbbell_Bench_Press": [
+    {
+      "platform": "bilibili",
+      "id": "BV1mD421J7o3",
+      "title": "哑铃平板卧推详解",
+      "author": "凯圣王",
+      "durationSeconds": 584,
+      "embeddable": false,
+      "thumbnail": "https://i0.hdslb.com/bfs/archive/c5c255d50f68c7d26a79b8670554271c42a2dfbe.jpg"
+    }
+  ],
+  "Stiff-Legged_Dumbbell_Deadlift": [
+    {
+      "platform": "bilibili",
+      "id": "BV1Mr421L75m",
+      "title": "哑铃直腿硬拉详解",
+      "author": "凯圣王",
+      "durationSeconds": 356,
+      "embeddable": false,
+      "thumbnail": "https://i1.hdslb.com/bfs/archive/a31c9091320ddc64fa9702836941d00a3ff75b56.jpg"
+    }
+  ],
+  "Leg_Extensions": [
+    {
+      "platform": "bilibili",
+      "id": "BV1DT421a7Lq",
+      "title": "坐姿腿屈伸详解",
+      "author": "凯圣王",
+      "durationSeconds": 462,
+      "embeddable": false,
+      "thumbnail": "https://i2.hdslb.com/bfs/archive/0dc8701eaa76a58a48945dd218143adc2cdfaf8b.jpg"
+    }
+  ],
+  "Dumbbell_Lunges": [
+    {
+      "platform": "bilibili",
+      "id": "BV1Et42187nB",
+      "title": "箭步蹲详解",
+      "author": "凯圣王",
+      "durationSeconds": 515,
+      "embeddable": false,
+      "thumbnail": "https://i0.hdslb.com/bfs/archive/22b46166e00c92432b1d5b54795f183e2451b8ef.jpg"
+    }
+  ],
+  "Hyperextensions_Back_Extensions": [
+    {
+      "platform": "bilibili",
+      "id": "BV1694y1M7GL",
+      "title": "山羊挺身详解",
+      "author": "凯圣王",
+      "durationSeconds": 414,
+      "embeddable": false,
+      "thumbnail": "https://i1.hdslb.com/bfs/archive/fa8744274a14e9e3aa97b39bb2b055794252c567.jpg"
+    }
+  ],
+  "Side_Lateral_Raise": [
+    {
+      "platform": "bilibili",
+      "id": "BV1UN41157u9",
+      "title": "哑铃侧平举详解",
+      "author": "凯圣王",
+      "durationSeconds": 713,
+      "embeddable": false,
+      "thumbnail": "https://i2.hdslb.com/bfs/archive/c63c9169b177d68198e175d1b599c6890c26e281.jpg"
+    }
+  ],
+  "Reverse_Flyes": [
+    {
+      "platform": "bilibili",
+      "id": "BV1di421D7rm",
+      "title": "俯身哑铃侧平举详解",
+      "author": "凯圣王",
+      "durationSeconds": 448,
+      "embeddable": false,
+      "thumbnail": "https://i0.hdslb.com/bfs/archive/c0609aa99ab4a3f8bff7815c745f6e3e381343bb.jpg"
+    }
+  ],
+  "Butterfly": [
+    {
+      "platform": "bilibili",
+      "id": "BV1fTyVYDE1j",
+      "title": "蝴蝶机夹胸详解",
+      "author": "凯圣王",
+      "durationSeconds": 502,
+      "embeddable": false,
+      "thumbnail": "https://i1.hdslb.com/bfs/archive/f6a2b0e9034217e24fae1bf6cec30dff4571c690.jpg"
+    }
+  ],
+  "Pushups": [
+    {
+      "platform": "bilibili",
+      "id": "BV1cD421n711",
+      "title": "俯卧撑详解",
+      "author": "凯圣王",
+      "durationSeconds": 803,
+      "embeddable": false,
+      "thumbnail": "https://i2.hdslb.com/bfs/archive/bae9b47f356a532ddcedb611175e2d9f37ccb055.jpg"
+    }
+  ],
+  "Bent_Over_Two-Dumbbell_Row": [
+    {
+      "platform": "bilibili",
+      "id": "BV1vU411o7ba",
+      "title": "俯身哑铃划船详解",
+      "author": "凯圣王",
+      "durationSeconds": 339,
+      "embeddable": false,
+      "thumbnail": "https://i1.hdslb.com/bfs/archive/ae3c684b0d64a4273ec3388009121c85daf806be.jpg"
+    }
+  ],
+  "One-Arm_Dumbbell_Row": [
+    {
+      "platform": "bilibili",
+      "id": "BV1ij411H773",
+      "title": "哑铃划船详解",
+      "author": "凯圣王",
+      "durationSeconds": 492,
+      "embeddable": false,
+      "thumbnail": "https://i2.hdslb.com/bfs/archive/35479f32fc6c50fe979be8a7f3da191050ca1512.jpg"
+    }
+  ],
+  "Dumbbell_Bicep_Curl": [
+    {
+      "platform": "bilibili",
+      "id": "BV1Fp4y1d73D",
+      "title": "哑铃弯举详解（兄弟们新年快乐，看视频臂围增加3厘米）",
+      "author": "凯圣王",
+      "durationSeconds": 360,
+      "embeddable": false,
+      "thumbnail": "https://i1.hdslb.com/bfs/archive/e3536b45bbe01564de07a9c27f3dfb9a9de294c8.jpg"
+    }
+  ],
+  "Triceps_Pushdown_-_Rope_Attachment": [
+    {
+      "platform": "bilibili",
+      "id": "BV1NF4m1E7nv",
+      "title": "龙门臂屈伸详解",
+      "author": "凯圣王",
+      "durationSeconds": 310,
+      "embeddable": false,
+      "thumbnail": "https://i1.hdslb.com/bfs/archive/e9a9837c9d9b8af90a5528306ee5cecdb54605fa.jpg"
+    }
+  ],
+  "Cable_Crunch": [
+    {
+      "platform": "bilibili",
+      "id": "BV1EH4y1J7G2",
+      "title": "龙门卷腹详解",
+      "author": "凯圣王",
+      "durationSeconds": 382,
+      "embeddable": false,
+      "thumbnail": "https://i0.hdslb.com/bfs/archive/a8a31d19aa8bfbb67d5edd34f15aef627f4a56b6.jpg"
+    }
+  ]
+}
