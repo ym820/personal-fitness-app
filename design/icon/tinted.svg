@@ -1,0 +1,11 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1024' height='1024'><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6CF09A"/><stop offset="0.55" stop-color="#22C36E"/><stop offset="1" stop-color="#058E58"/></linearGradient>
+<radialGradient id="h" cx="0.25" cy="0.15" r="0.75"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.28"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+<linearGradient id="dg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1C2A22"/><stop offset="1" stop-color="#0B120E"/></linearGradient>
+<linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7BF5A6"/><stop offset="1" stop-color="#1FC06A"/></linearGradient>
+<filter id="s" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="20" stdDeviation="24" flood-color="#03452A" flood-opacity="0.38"/></filter></defs><rect width='1024' height='1024' fill='#000000'/><g transform='translate(512 512) rotate(-35)'><g>
+ <rect x="-180" y="-38" width="360" height="76" rx="38" fill="#FFFFFF"/>
+ <rect x="-262" y="-170" width="100" height="340" rx="44" fill="#FFFFFF"/>
+ <rect x="-346" y="-118" width="76" height="236" rx="36" fill="#FFFFFF"/>
+ <rect x="162" y="-170" width="100" height="340" rx="44" fill="#FFFFFF"/>
+ <rect x="270" y="-118" width="76" height="236" rx="36" fill="#FFFFFF"/>
+</g></g></svg>

@@ -11,6 +11,7 @@ settings:
     MARKETING_VERSION: "0.1.0"
     CURRENT_PROJECT_VERSION: "1"
     CODE_SIGN_STYLE: Automatic
+    ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
     DEVELOPMENT_TEAM: "" # 填你的 Team ID，之后生成工程就不用每次手动选
 packages:
   FitnessCore:
@@ -42,7 +43,6 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.ym820.fitness
-        ASSETCATALOG_COMPILER_APPICON_NAME: "" # 还没有图标，加了 AppIcon 再删掉这行
         TARGETED_DEVICE_FAMILY: "1"
   FitnessWatch:
     type: application
