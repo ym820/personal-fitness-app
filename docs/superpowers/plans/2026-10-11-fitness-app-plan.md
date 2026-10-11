@@ -403,8 +403,7 @@ public struct WorkoutFlow: Sendable {
 public struct WatchPlan: Codable, Sendable {
     public let workout: NextWorkout
     public let restSeconds: Int
-    public let exercises: [String: ExerciseSummary]  // 手表只需要中英文名、单位、是否负重
-    public let generatedAt: Date
+    public let generatedAt: Date      // 动作名称等静态数据手表自己从 Catalog 读
 }
 
 public struct CompletedWorkout: Codable, Identifiable, Sendable {
