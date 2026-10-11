@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { coalesce, decodeBase64, encodeBase64, SyncError, syncWorkouts } from '../js/sync.js';
+import { coalesce, decodeBase64, encodeBase64, refreshAfterSync, SyncError, syncWorkouts } from '../js/sync.js';
 
 const w = (id, day, extra = {}) => ({
   id, date: new Date(day * 86_400_000).toISOString(), durationSeconds: 60, templateId: 'A', sets: [], deleted: false, ...extra,
@@ -153,4 +153,33 @@ test('等待中的调用要等补跑的那次结束才算完', async () => {
   release();
   await waiting;
   assert.deepEqual(order, ['run1', 'run2', 'caller done']);
+});
+
+test('403 和 429：区分限流、SSO 和权限不够', async () => {
+  const respond = (status, headers) => async () => new Response('{}', { status, headers });
+  const cases = [
+    [respond(403, { 'x-ratelimit-remaining': '0' }), '请求太频繁'],
+    [respond(429, {}), '请求太频繁'],
+    [respond(403, { 'x-github-sso': 'required; url=https://github.com/x' }), 'SSO'],
+    [respond(403, {}), '没有这个仓库的写入权限'],
+  ];
+  for (const [fetchFn, text] of cases) {
+    await assert.rejects(
+      syncWorkouts({ token: 'tok', repo: 'me/data', local: [], fetchFn }),
+      e => e instanceof SyncError && e.message.includes(text),
+      text,
+    );
+  }
+});
+
+test('同步结束后：动作库和训练页不刷新，正在输入时不刷新，其他页面刷新', () => {
+  assert.equal(refreshAfterSync('#/today', false), true);
+  assert.equal(refreshAfterSync('', false), true);
+  assert.equal(refreshAfterSync('#/history', false), true);
+  assert.equal(refreshAfterSync('#/settings', false), true);
+  assert.equal(refreshAfterSync('#/done/abc', false), true);
+  assert.equal(refreshAfterSync('#/settings', true), false);
+  assert.equal(refreshAfterSync('#/library', false), false);
+  assert.equal(refreshAfterSync('#/exercise/Leg_Press', false), false);
+  assert.equal(refreshAfterSync('#/workout', false), false);
 });

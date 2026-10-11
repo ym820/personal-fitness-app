@@ -49,7 +49,7 @@ export async function syncWorkouts({ token, repo, local, fetchFn = globalThis.fe
       sha = body.sha;
       remote = parseRemote(body.content);
     } else if (got.status !== 404) {
-      throw errorFor(got.status);
+      throw errorFor(got);
     }
 
     const merged = mergeWorkouts(local, remote);
@@ -67,7 +67,7 @@ export async function syncWorkouts({ token, repo, local, fetchFn = globalThis.fe
     if (put.ok) return merged;
     // 409/422：下载之后文件又被别处改过，重来一次
     if ((put.status === 409 || put.status === 422) && attempt === 0) continue;
-    throw errorFor(put.status);
+    throw errorFor(put);
   }
 }
 
@@ -121,9 +121,25 @@ const validWorkout = w =>
   typeof w.templateId === 'string' &&
   Array.isArray(w.sets) && w.sets.every(validSet);
 
-function errorFor(status) {
+function errorFor(response) {
+  const { status, headers } = response;
   if (status === 401) return new SyncError('令牌无效或已过期，请在设置里重新填写');
+  // GitHub 限流时也返回 403（或 429），不能都说成没有权限
+  if (status === 429 || (status === 403 && headers.get('x-ratelimit-remaining') === '0')) {
+    return new SyncError('GitHub 请求太频繁，下次打开时会重试');
+  }
+  if (status === 403 && headers.has('x-github-sso')) return new SyncError('需要先在 GitHub 上完成 SSO 授权');
   if (status === 403) return new SyncError('令牌没有这个仓库的写入权限');
   if (status === 404) return new SyncError('找不到仓库，或令牌没有这个仓库的权限');
   return new SyncError(`同步失败（GitHub 返回 ${status}）`);
+}
+
+/**
+ * 同步结束后要不要重新显示当前页面。动作库和训练页不受同步结果影响（训练页还有输入框和倒计时），
+ * 正在输入时（比如在设置里改仓库名）也不刷新，免得把输入清掉。
+ */
+export function refreshAfterSync(hash, typing) {
+  if (typing) return false;
+  const section = (hash || '#/today').split('/')[1];
+  return !['library', 'exercise', 'workout'].includes(section);
 }

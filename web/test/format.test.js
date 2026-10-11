@@ -65,3 +65,16 @@ test('每组的文字：自重动作不显示重量', () => {
   assert.equal(F.setText({ ...set, value: 30, weightLb: 0 }, { unit: 'seconds', increment: 0 }), '30 秒');
   assert.equal(F.setText(set, undefined), '12 次 × 90 lb');
 });
+
+test('重量不接受十六进制和科学计数法', () => {
+  assert.equal(F.parseWeight('0x10'), null);
+  assert.equal(F.parseWeight('1e3'), null);
+  assert.equal(F.parseWeight('.5'), 0.5);
+  assert.equal(F.parseWeight('40.'), 40);
+});
+
+test('输入框里的数字保留到两位小数，不丢 47.25 这样的重量', () => {
+  assert.equal(F.inputNumber(47.25), '47.25');
+  assert.equal(F.inputNumber(0.1 + 0.2), '0.3');
+  assert.equal(F.inputNumber(10), '10');
+});

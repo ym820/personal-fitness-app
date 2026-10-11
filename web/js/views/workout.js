@@ -48,7 +48,7 @@ function setScreen(app, session, flow) {
   const defaultWeight = flow.defaultWeight();
   const draft = session.draft ?? {};
   const valueText = draft.value ?? String(flow.defaultValue());
-  const weightText = draft.weight ?? (defaultWeight === null ? '' : F.number(defaultWeight));
+  const weightText = draft.weight ?? (defaultWeight === null ? '' : F.inputNumber(defaultWeight));
 
   return {
     html: html`
@@ -86,7 +86,7 @@ function setScreen(app, session, flow) {
         for (const button of box.querySelectorAll('[data-delta]')) {
           button.addEventListener('click', () => {
             const current = Number(field.value) || 0;
-            field.value = F.number(Math.max(0, current + step * Number(button.dataset.delta)));
+            field.value = F.inputNumber(Math.max(0, current + step * Number(button.dataset.delta)));
             saveDraft();
           });
         }

@@ -2,7 +2,7 @@ import { html } from './dom.js';
 import { loadCatalog } from './catalog.js';
 import { createStore, memoryStorage } from './store.js';
 import { mergeWorkouts } from './merge.js';
-import { coalesce, syncWorkouts } from './sync.js';
+import { coalesce, refreshAfterSync, syncWorkouts } from './sync.js';
 import { todayView } from './views/today.js';
 import { exerciseView, libraryView } from './views/library.js';
 import { historyView, workoutDetailView } from './views/history.js';
@@ -89,8 +89,8 @@ function syncNow() {
   const done = runSync();
   done.finally(() => {
     app.syncing = false;
-    // 训练页有输入框和倒计时，不打断
-    if (!location.hash.startsWith('#/workout')) render();
+    const typing = document.activeElement?.matches('input, textarea') ?? false;
+    if (refreshAfterSync(location.hash, typing)) render();
   });
   return done;
 }

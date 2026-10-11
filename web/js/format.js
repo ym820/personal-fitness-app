@@ -40,12 +40,14 @@ export function parseCount(text) {
   return /^\d+$/.test(t) ? Number(t) : null;
 }
 
-/** 输入框里的重量：非负数，可以有小数，否则 null */
+/** 输入框里的重量：非负数，可以有小数（不接受 0x10、1e3 这类写法），否则 null */
 export function parseWeight(text) {
   const t = String(text).trim();
-  const n = Number(t);
-  return t !== '' && Number.isFinite(n) && n >= 0 ? n : null;
+  return /^(\d+\.?\d*|\.\d+)$/.test(t) ? Number(t) : null;
 }
+
+/** 写回输入框的数字：最多两位小数，47.25 不会变成 47.3，0.1 + 0.2 显示成 0.3 */
+export const inputNumber = v => String(Math.round(v * 100) / 100);
 
 /** 按动作分组，保持训练时的顺序 */
 export function groupSets(sets) {
