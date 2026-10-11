@@ -28,6 +28,15 @@ public struct Catalog: Sendable {
         )
     }
 
+    /// FitnessCore 自带的数据。JSON 打包在 app 里，读取失败说明打包出了问题，直接崩溃。
+    public static let bundled: Catalog = {
+        do {
+            return try load()
+        } catch {
+            fatalError("读取 exercises.json / plan.json 失败：\(error)")
+        }
+    }()
+
     /// 读取 FitnessCore 自带的 exercises.json 和 plan.json。
     public static func load() throws -> Catalog {
         try load(bundle: .module)
