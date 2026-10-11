@@ -42,7 +42,7 @@ personal-fitness-app/
 │   ├── Health/WorkoutManager.swift
 │   └── Views/
 └── scripts/
-    ├── fetch_images.py             # 从 free-exercise-db 下载图片
+    ├── fetch_images.py             # 从 Workout Guide 下载示范图
     └── validate_data.py            # 检查 JSON 和图片对得上
 ```
 
@@ -193,7 +193,7 @@ personal-fitness-app/
 
 文件：
 
-- `scripts/fetch_images.py`：读 `exercises.json`，从 `https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/<id>/0.jpg`（和 `1.jpg`）下载到 asset catalog `FitnessApp/Assets.xcassets/ExerciseImages/<id>_0.imageset/` 等。已存在的跳过
+- `scripts/fetch_images.py`：按 `scripts/workout_guide_frames.json` 从 [Workout Guide](https://github.com/bryllim/workout-guide)（CC BY-SA 4.0）下载 SVG 线条图到 asset catalog，存成模板图，在 app 里按系统颜色染色。（最初用的是 free-exercise-db 的照片，后来换掉了）
 - `Packages/FitnessCore/Sources/FitnessCore/Resources/exercises.json`：30 个动作，格式：
   ```json
   {

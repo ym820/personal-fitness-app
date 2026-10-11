@@ -1,12 +1,16 @@
 {
   "images": [
     {
-      "filename": "Goblet_Squat_0.jpg",
+      "filename": "Goblet_Squat_0.svg",
       "idiom": "universal"
     }
   ],
   "info": {
     "author": "xcode",
     "version": 1
+  },
+  "properties": {
+    "preserves-vector-representation": true,
+    "template-rendering-intent": "template"
   }
 }

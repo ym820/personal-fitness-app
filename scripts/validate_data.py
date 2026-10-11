@@ -39,11 +39,11 @@ def main():
             errors.append(f"{name}: increment 不合法 {e['increment']}")
         if not 3 <= len(e["tipsZh"]) <= 5:
             errors.append(f"{name}: tipsZh 应该有 3 到 5 条，现在 {len(e['tipsZh'])} 条")
-        if len(e["images"]) != 2:
-            errors.append(f"{name}: 应该有 2 张图")
+        if len(e["images"]) not in (1, 2):
+            errors.append(f"{name}: 应该有 1 到 2 张图（起始、结束）")
         for image in e["images"]:
-            if not (IMAGES / f"{image}.imageset" / f"{image}.jpg").exists():
-                errors.append(f"{name}: 缺少图片 {image}.jpg")
+            if not (IMAGES / f"{image}.imageset" / f"{image}.svg").exists():
+                errors.append(f"{name}: 缺少图片 {image}.svg")
 
     known = set(ids)
     for template in plan["templates"]:

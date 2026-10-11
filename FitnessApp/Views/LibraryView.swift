@@ -20,6 +20,17 @@ struct LibraryView: View {
                         }
                     }
                 }
+
+                Section {
+                    // CC BY-SA 4.0 要求注明作者和协议
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("动作插图来自 Workout Guide，作者 Bryl Lim，基于 Everkinetic 的作品，按 CC BY-SA 4.0 协议使用。")
+                        Link("github.com/bryllim/workout-guide", destination: URL(string: "https://github.com/bryllim/workout-guide")!)
+                        Link("CC BY-SA 4.0 协议", destination: URL(string: "https://creativecommons.org/licenses/by-sa/4.0/")!)
+                    }
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                }
             }
             .navigationTitle("动作库")
             .searchable(text: $query, prompt: "中文或英文名、器材")
@@ -61,10 +72,14 @@ struct ExerciseThumbnail: View {
     let exercise: Exercise
 
     var body: some View {
-        Image(exercise.images.first ?? "")
+        // 用结束姿势：多数动作的结束姿势最有辨识度（比如推起、拉到底）
+        Image(exercise.images.last ?? "")
+            .renderingMode(.template)
             .resizable()
-            .scaledToFill()
-            .frame(width: 64, height: 48)
-            .clipShape(RoundedRectangle(cornerRadius: 6))
+            .scaledToFit()
+            .foregroundStyle(.primary)
+            .padding(3)
+            .frame(width: 56, height: 56)
+            .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 10))
     }
 }

@@ -1,12 +1,16 @@
 {
   "images": [
     {
-      "filename": "Side_Lateral_Raise_0.jpg",
+      "filename": "Side_Lateral_Raise_0.svg",
       "idiom": "universal"
     }
   ],
   "info": {
     "author": "xcode",
     "version": 1
+  },
+  "properties": {
+    "preserves-vector-representation": true,
+    "template-rendering-intent": "template"
   }
 }

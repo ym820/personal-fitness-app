@@ -42,66 +42,73 @@ struct ExerciseDetailView: View {
     }
 }
 
-/// 动作示范：起始和结束两张图自动来回切换，看起来像在做这个动作。
-/// 这是有目的的动画（讲解动作），点一下暂停 / 继续。开了「减弱动态效果」就不自动播放，改成点一下切换。
+/// 动作示范：起始和结束两张线条图放在一起对比。
+/// 线条图是模板图，跟着文字颜色走，深色模式自动变白。
+/// 两帧的大小和角度不完全一致，所以不做淡入淡出切换（会出现重影），直接并排更清楚。
+/// 横向的图（比如腿举）上下排，竖向的图（比如深蹲）左右排，让图尽量大。
 private struct ExerciseDemo: View {
     let exercise: Exercise
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var frame = 0
-    @State private var isPlaying = true
 
-    private var autoPlays: Bool { isPlaying && !reduceMotion }
+    private var isWide: Bool {
+        guard let size = UIImage(named: exercise.images.first ?? "")?.size, size.height > 0 else { return false }
+        return size.width / size.height > 1.2
+    }
 
     var body: some View {
-        ZStack {
+        let layout = isWide
+            ? AnyLayout(VStackLayout(spacing: 4))
+            : AnyLayout(HStackLayout(alignment: .bottom, spacing: 4))
+
+        layout {
             ForEach(Array(exercise.images.enumerated()), id: \.offset) { index, name in
-                Image(name)
-                    .resizable()
-                    .scaledToFit()
-                    .opacity(index == frame ? 1 : 0)
-            }
-        }
-        .frame(maxWidth: .infinity)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .overlay(alignment: .topLeading) {
-            Text(frame == 0 ? "起始" : "结束")
-                .font(.caption.bold())
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .background(.ultraThinMaterial, in: Capsule())
-                .padding(8)
-        }
-        .overlay(alignment: .bottomTrailing) {
-            if !reduceMotion {
-                Image(systemName: isPlaying ? "pause.fill" : "play.fill")
-                    .font(.caption)
-                    .padding(8)
-                    .background(.ultraThinMaterial, in: Circle())
-                    .padding(8)
-            }
-        }
-        .contentShape(Rectangle())
-        .onTapGesture {
-            if reduceMotion {
-                frame = (frame + 1) % max(1, exercise.images.count)
-            } else {
-                isPlaying.toggle()
-            }
-        }
-        .accessibilityElement()
-        .accessibilityLabel("\(exercise.nameZh)示范图，\(frame == 0 ? "起始" : "结束")姿势")
-        .accessibilityAddTraits(.isButton)
-        .task(id: autoPlays) {
-            guard autoPlays, exercise.images.count > 1 else { return }
-            while !Task.isCancelled {
-                try? await Task.sleep(for: .seconds(1.2))
-                guard !Task.isCancelled else { return }
-                // 画面上原地变化用 ease-in-out
-                withAnimation(.easeInOut(duration: 0.35)) {
-                    frame = (frame + 1) % exercise.images.count
+                if index > 0 {
+                    Image(systemName: isWide ? "arrow.down" : "arrow.right")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(.tertiary)
+                        .frame(maxHeight: isWide ? nil : .infinity)
                 }
+                frame(name: name, index: index)
             }
         }
+        .frame(height: isWide ? nil : 220)
+        .padding(12)
+        .frame(maxWidth: .infinity)
+        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12))
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(exercise.nameZh)示范图")
+    }
+
+    private func frame(name: String, index: Int) -> some View {
+        let label = exercise.images.count > 1 ? (index == 0 ? "起始" : "结束") : nil
+        return Group {
+            if isWide {
+                HStack(alignment: .top, spacing: 8) {
+                    art(name).frame(maxHeight: 150)
+                    if let label { caption(label).frame(width: 28) }
+                }
+            } else {
+                VStack(spacing: 6) {
+                    art(name)
+                    if let label { caption(label) }
+                }
+                .frame(maxWidth: .infinity)
+            }
+        }
+    }
+
+    private func art(_ name: String) -> some View {
+        Image(name)
+            .renderingMode(.template)
+            .resizable()
+            .scaledToFit()
+            .foregroundStyle(.primary)
+            .frame(maxWidth: .infinity)
+    }
+
+    private func caption(_ text: String) -> some View {
+        Text(text)
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(.secondary)
     }
 }
 
