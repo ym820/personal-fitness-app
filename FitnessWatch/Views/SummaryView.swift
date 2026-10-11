@@ -5,11 +5,21 @@ import FitnessCore
 struct SummaryView: View {
     let setCount: Int
     @Environment(TrainingModel.self) private var model
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var appeared = false
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 8) {
-                Text("训练完成").font(.title3.bold())
+                HStack(spacing: 6) {
+                    // 一周只见三次的时刻，值得一点点庆祝
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                        .symbolEffect(.bounce, value: appeared)
+                    Text("训练完成")
+                }
+                .font(.title3.bold())
+
                 if let summary = model.summary {
                     StatRow(title: "时长", value: Format.duration(summary.duration))
                     StatRow(title: "完成", value: "\(setCount) 组")
@@ -27,11 +37,13 @@ struct SummaryView: View {
                     }
                     Button("完成") { model.close() }
                         .buttonStyle(.borderedProminent)
-                        .tint(.green)
                 } else {
                     ProgressView("保存中…")
                 }
             }
+        }
+        .onAppear {
+            if !reduceMotion { appeared = true }
         }
     }
 }

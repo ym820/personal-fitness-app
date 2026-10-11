@@ -1,14 +1,20 @@
 import SwiftUI
+import SwiftData
 import FitnessCore
 
 struct TodayView: View {
     @Environment(PhoneSync.self) private var sync
+    @Query(sort: \WorkoutLog.startDate, order: .reverse) private var logs: [WorkoutLog]
     private let catalog = Catalog.bundled
 
     var body: some View {
         NavigationStack {
             List {
                 if let plan = sync.plan {
+                    Section {
+                        PlanHeader(plan: plan, lastLog: logs.first)
+                    }
+
                     Section {
                         ForEach(plan.workout.exercises, id: \.exerciseId) { target in
                             if let exercise = catalog.exercise(target.exerciseId) {
@@ -18,28 +24,52 @@ struct TodayView: View {
                             }
                         }
                     } header: {
-                        Text("每组之间休息 \(plan.restSeconds) 秒")
+                        Text("动作")
                     } footer: {
-                        Text("在手表上打开「健身」开始训练。所有组都做到最高次数，下次会自动加重。")
+                        Text("每组之间休息 \(plan.restSeconds) 秒。所有组都做到最高次数，下次会自动加重。")
                     }
                 }
 
                 if !sync.isWatchAppInstalled {
                     Section {
-                        Label("手表上还没装好 app，训练计划会在装好后自动同步过去。", systemImage: "applewatch.slash")
+                        Label("手表上还没装好 app，装好后训练计划会自动同步过去。", systemImage: "applewatch.slash")
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                     }
                 }
             }
-            .navigationTitle(title)
+            .navigationTitle("今天")
             .navigationDestination(for: Exercise.self) { ExerciseDetailView(exercise: $0) }
         }
     }
+}
 
-    private var title: String {
-        guard let id = sync.plan?.workout.templateId else { return "今天" }
-        return "下次：" + (catalog.template(id)?.nameZh ?? id)
+/// 今天页最上面：下次练什么、要多久、上次是哪天
+private struct PlanHeader: View {
+    let plan: WatchPlan
+    let lastLog: WorkoutLog?
+    private let catalog = Catalog.bundled
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("下次训练")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            Text(catalog.template(plan.workout.templateId)?.nameZh ?? plan.workout.templateId)
+                .font(.largeTitle.bold())
+            Text("\(plan.workout.exercises.count) 个动作 · \(plan.workout.totalSets) 组 · \(Format.approxMinutes(plan.workout.estimatedDuration(restSeconds: plan.restSeconds)))")
+                .font(.subheadline)
+            Group {
+                if let lastLog {
+                    Text("上次：\(lastLog.startDate.formatted(.dateTime.month().day().weekday())) \(catalog.template(lastLog.templateId)?.nameZh ?? lastLog.templateId)")
+                } else {
+                    Text("第一次训练，在手表上打开「健身」开始")
+                }
+            }
+            .font(.footnote)
+            .foregroundStyle(.secondary)
+        }
+        .padding(.vertical, 4)
     }
 }
 
@@ -50,12 +80,13 @@ private struct TargetRow: View {
     var body: some View {
         HStack(spacing: 12) {
             ExerciseThumbnail(exercise: exercise)
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(exercise.nameZh).font(.headline)
                 Text(exercise.nameEn).font(.subheadline).foregroundStyle(.secondary)
-                HStack(spacing: 8) {
-                    Text("\(target.sets) 组 × \(Format.target(min: target.targetMin, max: target.targetMax, unit: exercise.unit))")
-                    weightText
+                HStack(spacing: 6) {
+                    Text("\(target.sets) × \(Format.target(min: target.targetMin, max: target.targetMax, unit: exercise.unit))")
+                        .monospacedDigit()
+                    weightTag
                 }
                 .font(.footnote)
             }
@@ -63,20 +94,37 @@ private struct TargetRow: View {
         .padding(.vertical, 2)
     }
 
-    @ViewBuilder private var weightText: some View {
+    @ViewBuilder private var weightTag: some View {
         if !exercise.isWeighted {
             EmptyView()
         } else if let weight = target.weightLb {
-            HStack(spacing: 2) {
-                Text(Format.weight(weight))
-                if target.suggestIncrease {
-                    Label("加重", systemImage: "arrow.up")
-                        .labelStyle(.titleAndIcon)
-                        .foregroundStyle(.green)
-                }
+            Text(Format.weight(weight)).monospacedDigit()
+            if target.suggestIncrease {
+                Tag(text: "加重", systemImage: "arrow.up", color: .green)
             }
         } else {
-            Text("首次，在手表上输入重量").foregroundStyle(.orange)
+            Tag(text: "首次，手表上输入重量", systemImage: nil, color: .orange)
         }
+    }
+}
+
+/// 小标签：颜色放在实底上，文字保持清晰
+struct Tag: View {
+    let text: String
+    let systemImage: String?
+    let color: Color
+
+    var body: some View {
+        HStack(spacing: 2) {
+            if let systemImage {
+                Image(systemName: systemImage)
+            }
+            Text(text)
+        }
+        .font(.caption2.weight(.semibold))
+        .foregroundStyle(color)
+        .padding(.horizontal, 6)
+        .padding(.vertical, 2)
+        .background(color.opacity(0.15), in: Capsule())
     }
 }

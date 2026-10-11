@@ -44,6 +44,12 @@ public enum Format {
         return h > 0 ? String(format: "%d:%02d:%02d", h, m, s) : String(format: "%d:%02d", m, s)
     }
 
+    /// 估算时长，取整到 5 分钟
+    public static func approxMinutes(_ seconds: TimeInterval) -> String {
+        let minutes = max(5, Int((seconds / 60 / 5).rounded()) * 5)
+        return "约 \(minutes) 分钟"
+    }
+
     public static func muscleZh(_ muscle: String) -> String {
         muscleNames[muscle] ?? muscle
     }

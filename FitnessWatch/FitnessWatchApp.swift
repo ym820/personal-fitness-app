@@ -8,6 +8,7 @@ struct FitnessWatchApp: App {
         WindowGroup {
             RootView()
                 .environment(model)
+                .tint(.green)
                 .task { model.sync.start() }
         }
     }

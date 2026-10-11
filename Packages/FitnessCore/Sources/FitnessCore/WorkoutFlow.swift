@@ -31,7 +31,7 @@ public struct WorkoutFlow: Equatable, Sendable {
     }
 
     public var totalSets: Int {
-        workout.exercises.reduce(0) { $0 + $1.sets }
+        workout.totalSets
     }
 
     /// 正在做的组，或休息完要做的组

@@ -72,3 +72,17 @@ public enum PlanEngine {
         return completedAll ? make(lastWeight + exercise.increment, increase: true) : make(lastWeight)
     }
 }
+
+extension NextWorkout {
+    /// 每组按 45 秒估算
+    static let secondsPerSet: TimeInterval = 45
+
+    public var totalSets: Int {
+        exercises.reduce(0) { $0 + $1.sets }
+    }
+
+    public func estimatedDuration(restSeconds: Int) -> TimeInterval {
+        guard totalSets > 0 else { return 0 }
+        return TimeInterval(totalSets) * Self.secondsPerSet + TimeInterval((totalSets - 1) * restSeconds)
+    }
+}

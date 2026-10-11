@@ -22,6 +22,7 @@ struct FitnessApp: App {
         WindowGroup {
             RootView()
                 .environment(sync)
+                .tint(.green)
                 .task { sync.start() }
         }
         .modelContainer(container)

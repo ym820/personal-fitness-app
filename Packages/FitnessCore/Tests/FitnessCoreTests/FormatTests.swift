@@ -35,3 +35,27 @@ import Testing
         }
     }
 }
+
+@Suite struct EstimateTests {
+    @Test func estimatedDurationCountsSetsAndRests() {
+        let workout = NextWorkout(templateId: "A", exercises: [
+            TargetExercise(exerciseId: "X", sets: 3, targetMin: 8, targetMax: 12, weightLb: nil, suggestIncrease: false),
+            TargetExercise(exerciseId: "Y", sets: 2, targetMin: 8, targetMax: 12, weightLb: nil, suggestIncrease: false),
+        ])
+        #expect(workout.totalSets == 5)
+        // 5 组 × 45 秒 + 4 次休息 × 90 秒
+        #expect(workout.estimatedDuration(restSeconds: 90) == 585)
+        #expect(NextWorkout(templateId: "A", exercises: []).estimatedDuration(restSeconds: 90) == 0)
+    }
+
+    @Test func approxMinutesRoundsToFive() {
+        #expect(Format.approxMinutes(1_935) == "约 30 分钟")
+        #expect(Format.approxMinutes(585) == "约 10 分钟")
+        #expect(Format.approxMinutes(60) == "约 5 分钟")
+    }
+
+    @Test func bundledPlanIsAboutHalfAnHour() throws {
+        let next = PlanEngine.next(catalog: .bundled, history: [])
+        #expect(Format.approxMinutes(next.estimatedDuration(restSeconds: 90)) == "约 30 分钟")
+    }
+}
