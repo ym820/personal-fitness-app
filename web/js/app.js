@@ -4,6 +4,7 @@ import { createStore, memoryStorage } from './store.js';
 import { mergeWorkouts } from './merge.js';
 import { syncWorkouts } from './sync.js';
 import { todayView } from './views/today.js';
+import { exerciseView, libraryView } from './views/library.js';
 
 /** localStorage 能用就用；无痕模式等情况下用内存代替，并显示提示 */
 function pickStorage() {
@@ -33,6 +34,8 @@ const app = {
 
 const routes = [
   [/^#\/today$/, todayView],
+  [/^#\/library$/, libraryView],
+  [/^#\/exercise\/([^/]+)$/, exerciseView],
 ];
 
 /** 详情页、设置页等高亮哪个标签 */
