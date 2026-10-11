@@ -1,0 +1,695 @@
+[
+  {
+    "id": "Leg_Press",
+    "nameZh": "腿举",
+    "nameEn": "Leg Press",
+    "equipmentZh": "腿举机",
+    "equipmentEn": "Leg Press Machine",
+    "bodyPart": "legs",
+    "primaryMuscles": [
+      "quadriceps"
+    ],
+    "images": [
+      "Leg_Press_0",
+      "Leg_Press_1"
+    ],
+    "tipsZh": [
+      "背和臀部全程贴紧靠垫",
+      "双脚与肩同宽，踩在踏板中间",
+      "下放到大腿和小腿约成 90 度",
+      "用脚跟发力推起，膝盖不要完全锁死"
+    ],
+    "unit": "reps",
+    "increment": 10
+  },
+  {
+    "id": "Leverage_Chest_Press",
+    "nameZh": "坐姿器械推胸",
+    "nameEn": "Machine Chest Press",
+    "equipmentZh": "坐姿推胸机",
+    "equipmentEn": "Chest Press Machine",
+    "bodyPart": "chest",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "images": [
+      "Leverage_Chest_Press_0",
+      "Leverage_Chest_Press_1"
+    ],
+    "tipsZh": [
+      "调座椅高度，让把手在胸部中下方",
+      "挺胸，肩胛骨向后收紧",
+      "向前推到手臂接近伸直，停一下",
+      "慢慢回来，配重片不要碰到底"
+    ],
+    "unit": "reps",
+    "increment": 10
+  },
+  {
+    "id": "Wide-Grip_Lat_Pulldown",
+    "nameZh": "高位下拉",
+    "nameEn": "Lat Pulldown",
+    "equipmentZh": "高位下拉器（宽杆）",
+    "equipmentEn": "Lat Pulldown Machine",
+    "bodyPart": "back",
+    "primaryMuscles": [
+      "lats"
+    ],
+    "images": [
+      "Wide-Grip_Lat_Pulldown_0",
+      "Wide-Grip_Lat_Pulldown_1"
+    ],
+    "tipsZh": [
+      "调好膝垫，把大腿压稳",
+      "双手比肩宽握杆，掌心向前",
+      "上身微微后仰，挺胸",
+      "把杆拉到上胸，想象用手肘往下拉",
+      "慢慢放回，手臂伸直"
+    ],
+    "unit": "reps",
+    "increment": 10
+  },
+  {
+    "id": "Dumbbell_Shoulder_Press",
+    "nameZh": "坐姿哑铃推肩",
+    "nameEn": "Seated Dumbbell Shoulder Press",
+    "equipmentZh": "哑铃 + 有靠背的凳子",
+    "equipmentEn": "Dumbbells + Bench",
+    "bodyPart": "shoulders",
+    "primaryMuscles": [
+      "shoulders"
+    ],
+    "images": [
+      "Dumbbell_Shoulder_Press_0",
+      "Dumbbell_Shoulder_Press_1"
+    ],
+    "tipsZh": [
+      "坐在有靠背的凳子上，背贴紧靠背",
+      "哑铃举到肩膀高度，掌心向前",
+      "呼气向上推，到头顶上方两只哑铃靠近",
+      "慢慢放回肩膀高度，不要耸肩"
+    ],
+    "unit": "reps",
+    "increment": 5
+  },
+  {
+    "id": "Plank",
+    "nameZh": "平板支撑",
+    "nameEn": "Plank",
+    "equipmentZh": "无（瑜伽垫）",
+    "equipmentEn": "Body Only",
+    "bodyPart": "core",
+    "primaryMuscles": [
+      "abdominals"
+    ],
+    "images": [
+      "Plank_0",
+      "Plank_1"
+    ],
+    "tipsZh": [
+      "小臂撑地，手肘在肩膀正下方",
+      "从头到脚保持一条直线",
+      "收紧腹部和臀部，不要塌腰或撅屁股",
+      "保持正常呼吸，不要憋气"
+    ],
+    "unit": "seconds",
+    "increment": 0
+  },
+  {
+    "id": "Goblet_Squat",
+    "nameZh": "高脚杯深蹲",
+    "nameEn": "Goblet Squat",
+    "equipmentZh": "哑铃或壶铃",
+    "equipmentEn": "Dumbbell or Kettlebell",
+    "bodyPart": "legs",
+    "primaryMuscles": [
+      "quadriceps"
+    ],
+    "images": [
+      "Goblet_Squat_0",
+      "Goblet_Squat_1"
+    ],
+    "tipsZh": [
+      "双手捧住一个哑铃的一端，贴在胸前",
+      "双脚略比肩宽，脚尖微微朝外",
+      "挺胸，背保持直，往下蹲到大腿至少与地面平行",
+      "膝盖和脚尖方向一致，不要内扣",
+      "用脚跟发力站起来"
+    ],
+    "unit": "reps",
+    "increment": 5
+  },
+  {
+    "id": "Seated_Cable_Rows",
+    "nameZh": "坐姿绳索划船",
+    "nameEn": "Seated Cable Row",
+    "equipmentZh": "低位拉力器（V 形把手）",
+    "equipmentEn": "Cable Row Machine",
+    "bodyPart": "back",
+    "primaryMuscles": [
+      "middle back"
+    ],
+    "images": [
+      "Seated_Cable_Rows_0",
+      "Seated_Cable_Rows_1"
+    ],
+    "tipsZh": [
+      "坐下，双脚踩稳踏板，膝盖微弯",
+      "握住 V 形把手，上身坐直，挺胸",
+      "把把手拉向肚子，手肘贴近身体",
+      "拉到底时夹紧肩胛骨，停一下",
+      "慢慢放回，上身不要前后晃"
+    ],
+    "unit": "reps",
+    "increment": 10
+  },
+  {
+    "id": "Dumbbell_Bench_Press",
+    "nameZh": "哑铃卧推",
+    "nameEn": "Dumbbell Bench Press",
+    "equipmentZh": "哑铃 + 平板凳",
+    "equipmentEn": "Dumbbells + Flat Bench",
+    "bodyPart": "chest",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "images": [
+      "Dumbbell_Bench_Press_0",
+      "Dumbbell_Bench_Press_1"
+    ],
+    "tipsZh": [
+      "躺在平凳上，双脚踩稳地面",
+      "哑铃在胸部两侧，小臂垂直地面",
+      "呼气向上推到手臂伸直，两只哑铃靠近",
+      "慢慢放下，下放时间比推起长一点"
+    ],
+    "unit": "reps",
+    "increment": 5
+  },
+  {
+    "id": "Stiff-Legged_Dumbbell_Deadlift",
+    "nameZh": "哑铃罗马尼亚硬拉",
+    "nameEn": "Dumbbell Romanian Deadlift",
+    "equipmentZh": "哑铃",
+    "equipmentEn": "Dumbbells",
+    "bodyPart": "legs",
+    "primaryMuscles": [
+      "hamstrings"
+    ],
+    "images": [
+      "Stiff-Legged_Dumbbell_Deadlift_0",
+      "Stiff-Legged_Dumbbell_Deadlift_1"
+    ],
+    "tipsZh": [
+      "双手拿哑铃放在身前，双脚与肩同宽，膝盖微弯",
+      "屁股往后推，上身前倾，背一直保持平直",
+      "哑铃贴着腿往下滑，感觉大腿后侧拉伸就停",
+      "用臀部发力站直，不要弓背"
+    ],
+    "unit": "reps",
+    "increment": 5
+  },
+  {
+    "id": "Crunches",
+    "nameZh": "卷腹",
+    "nameEn": "Crunch",
+    "equipmentZh": "无（瑜伽垫）",
+    "equipmentEn": "Body Only",
+    "bodyPart": "core",
+    "primaryMuscles": [
+      "abdominals"
+    ],
+    "images": [
+      "Crunches_0",
+      "Crunches_1"
+    ],
+    "tipsZh": [
+      "仰卧，屈膝，双脚踩地",
+      "双手轻放在头两侧，不要抱头用力拉脖子",
+      "下背贴地，用腹部把肩膀卷离地面",
+      "顶部停一秒，慢慢回落"
+    ],
+    "unit": "reps",
+    "increment": 0
+  },
+  {
+    "id": "Leg_Extensions",
+    "nameZh": "坐姿腿屈伸",
+    "nameEn": "Leg Extension",
+    "equipmentZh": "腿屈伸机",
+    "equipmentEn": "Leg Extension Machine",
+    "bodyPart": "legs",
+    "primaryMuscles": [
+      "quadriceps"
+    ],
+    "images": [
+      "Leg_Extensions_0",
+      "Leg_Extensions_1"
+    ],
+    "tipsZh": [
+      "调靠背，让膝盖对准机器转轴",
+      "垫子压在脚踝上方",
+      "用大腿前侧把腿伸直，顶部停一秒",
+      "慢慢放下，身体不要离开座椅"
+    ],
+    "unit": "reps",
+    "increment": 10
+  },
+  {
+    "id": "Seated_Leg_Curl",
+    "nameZh": "坐姿腿弯举",
+    "nameEn": "Seated Leg Curl",
+    "equipmentZh": "坐姿腿弯举机",
+    "equipmentEn": "Seated Leg Curl Machine",
+    "bodyPart": "legs",
+    "primaryMuscles": [
+      "hamstrings"
+    ],
+    "images": [
+      "Seated_Leg_Curl_0",
+      "Seated_Leg_Curl_1"
+    ],
+    "tipsZh": [
+      "背贴靠垫，大腿垫压在膝盖上方",
+      "小腿后侧放在下方垫子上",
+      "向下向后弯曲膝盖，停一秒",
+      "慢慢放回，上身保持不动"
+    ],
+    "unit": "reps",
+    "increment": 10
+  },
+  {
+    "id": "Dumbbell_Lunges",
+    "nameZh": "哑铃箭步蹲",
+    "nameEn": "Dumbbell Lunge",
+    "equipmentZh": "哑铃",
+    "equipmentEn": "Dumbbells",
+    "bodyPart": "legs",
+    "primaryMuscles": [
+      "quadriceps"
+    ],
+    "images": [
+      "Dumbbell_Lunges_0",
+      "Dumbbell_Lunges_1"
+    ],
+    "tipsZh": [
+      "双手拿哑铃垂在身体两侧，站直",
+      "一条腿向前迈一大步",
+      "下蹲到两个膝盖都约 90 度，上身保持直立",
+      "用前脚脚跟发力回到站姿，换腿"
+    ],
+    "unit": "reps",
+    "increment": 5
+  },
+  {
+    "id": "Standing_Calf_Raises",
+    "nameZh": "站姿提踵",
+    "nameEn": "Standing Calf Raise",
+    "equipmentZh": "站姿提踵机",
+    "equipmentEn": "Calf Raise Machine",
+    "bodyPart": "legs",
+    "primaryMuscles": [
+      "calves"
+    ],
+    "images": [
+      "Standing_Calf_Raises_0",
+      "Standing_Calf_Raises_1"
+    ],
+    "tipsZh": [
+      "肩膀顶住垫子，前脚掌踩在踏板边缘",
+      "膝盖微弯，不要锁死",
+      "用小腿把脚跟抬到最高，停一秒",
+      "慢慢放下，让脚跟低于踏板感到拉伸"
+    ],
+    "unit": "reps",
+    "increment": 10
+  },
+  {
+    "id": "Single_Leg_Glute_Bridge",
+    "nameZh": "单腿臀桥",
+    "nameEn": "Single-Leg Glute Bridge",
+    "equipmentZh": "无（瑜伽垫）",
+    "equipmentEn": "Body Only",
+    "bodyPart": "legs",
+    "primaryMuscles": [
+      "glutes"
+    ],
+    "images": [
+      "Single_Leg_Glute_Bridge_0",
+      "Single_Leg_Glute_Bridge_1"
+    ],
+    "tipsZh": [
+      "仰卧屈膝，一条腿抬起",
+      "另一只脚的脚跟发力，把臀部抬起",
+      "顶部夹紧臀部，身体从肩到膝成直线",
+      "慢慢放下，做完一侧换腿"
+    ],
+    "unit": "reps",
+    "increment": 0
+  },
+  {
+    "id": "Hyperextensions_Back_Extensions",
+    "nameZh": "山羊挺身",
+    "nameEn": "Back Extension",
+    "equipmentZh": "罗马椅",
+    "equipmentEn": "Hyperextension Bench",
+    "bodyPart": "back",
+    "primaryMuscles": [
+      "lower back"
+    ],
+    "images": [
+      "Hyperextensions_Back_Extensions_0",
+      "Hyperextensions_Back_Extensions_1"
+    ],
+    "tipsZh": [
+      "趴在罗马椅上，脚踝卡在脚垫下",
+      "大腿前侧压在垫子上，髋部留出弯曲空间",
+      "双手交叉放胸前，背保持平直往下弯",
+      "用臀部和下背发力起身到身体成直线，不要过度后仰"
+    ],
+    "unit": "reps",
+    "increment": 0
+  },
+  {
+    "id": "Leverage_Shoulder_Press",
+    "nameZh": "坐姿器械推肩",
+    "nameEn": "Machine Shoulder Press",
+    "equipmentZh": "坐姿推肩机",
+    "equipmentEn": "Shoulder Press Machine",
+    "bodyPart": "shoulders",
+    "primaryMuscles": [
+      "shoulders"
+    ],
+    "images": [
+      "Leverage_Shoulder_Press_0",
+      "Leverage_Shoulder_Press_1"
+    ],
+    "tipsZh": [
+      "调座椅，让把手在肩膀上方附近",
+      "挺胸，背贴靠垫",
+      "向上推到手臂接近伸直",
+      "慢慢放回，配重片不要碰到底"
+    ],
+    "unit": "reps",
+    "increment": 10
+  },
+  {
+    "id": "Side_Lateral_Raise",
+    "nameZh": "哑铃侧平举",
+    "nameEn": "Dumbbell Lateral Raise",
+    "equipmentZh": "哑铃",
+    "equipmentEn": "Dumbbells",
+    "bodyPart": "shoulders",
+    "primaryMuscles": [
+      "shoulders"
+    ],
+    "images": [
+      "Side_Lateral_Raise_0",
+      "Side_Lateral_Raise_1"
+    ],
+    "tipsZh": [
+      "站直，哑铃垂在身体两侧",
+      "手肘微弯，从两侧举起哑铃",
+      "举到手臂与地面平行，不要耸肩",
+      "慢慢放下，身体不要借力晃动"
+    ],
+    "unit": "reps",
+    "increment": 5
+  },
+  {
+    "id": "Reverse_Flyes",
+    "nameZh": "俯身哑铃飞鸟",
+    "nameEn": "Reverse Dumbbell Fly",
+    "equipmentZh": "哑铃 + 上斜凳",
+    "equipmentEn": "Dumbbells + Incline Bench",
+    "bodyPart": "shoulders",
+    "primaryMuscles": [
+      "shoulders"
+    ],
+    "images": [
+      "Reverse_Flyes_0",
+      "Reverse_Flyes_1"
+    ],
+    "tipsZh": [
+      "胸口趴在上斜凳上，双手拿哑铃自然下垂",
+      "手肘微弯，向两侧张开举起",
+      "举到手臂与地面平行，夹紧肩胛骨",
+      "慢慢放回"
+    ],
+    "unit": "reps",
+    "increment": 5
+  },
+  {
+    "id": "Butterfly",
+    "nameZh": "蝴蝶机夹胸",
+    "nameEn": "Machine Fly",
+    "equipmentZh": "蝴蝶机",
+    "equipmentEn": "Pec Deck Machine",
+    "bodyPart": "chest",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "images": [
+      "Butterfly_0",
+      "Butterfly_1"
+    ],
+    "tipsZh": [
+      "调座椅，让上臂与地面平行",
+      "背贴紧靠垫，握住把手",
+      "用胸肌把把手向中间夹，停一秒",
+      "慢慢打开，感到胸部拉伸"
+    ],
+    "unit": "reps",
+    "increment": 10
+  },
+  {
+    "id": "Pushups",
+    "nameZh": "俯卧撑",
+    "nameEn": "Push-Up",
+    "equipmentZh": "无",
+    "equipmentEn": "Body Only",
+    "bodyPart": "chest",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "images": [
+      "Pushups_0",
+      "Pushups_1"
+    ],
+    "tipsZh": [
+      "双手比肩略宽撑地，身体成一条直线",
+      "下放到胸口接近地面",
+      "推起时收紧腹部，不要塌腰",
+      "做不了标准的可以先做上斜俯卧撑"
+    ],
+    "unit": "reps",
+    "increment": 0
+  },
+  {
+    "id": "Incline_Push-Up",
+    "nameZh": "上斜俯卧撑",
+    "nameEn": "Incline Push-Up",
+    "equipmentZh": "凳子或高台",
+    "equipmentEn": "Bench",
+    "bodyPart": "chest",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "images": [
+      "Incline_Push-Up_0",
+      "Incline_Push-Up_1"
+    ],
+    "tipsZh": [
+      "双手撑在凳子边缘，比肩略宽",
+      "身体从头到脚保持直线",
+      "弯曲手臂让胸口靠近凳子",
+      "推起到手臂伸直，台子越高越容易"
+    ],
+    "unit": "reps",
+    "increment": 0
+  },
+  {
+    "id": "Close-Grip_Front_Lat_Pulldown",
+    "nameZh": "窄握高位下拉",
+    "nameEn": "Close-Grip Lat Pulldown",
+    "equipmentZh": "高位下拉器",
+    "equipmentEn": "Lat Pulldown Machine",
+    "bodyPart": "back",
+    "primaryMuscles": [
+      "lats"
+    ],
+    "images": [
+      "Close-Grip_Front_Lat_Pulldown_0",
+      "Close-Grip_Front_Lat_Pulldown_1"
+    ],
+    "tipsZh": [
+      "调好膝垫，双手比肩窄握杆",
+      "上身微微后仰，挺胸",
+      "把杆拉到上胸，手肘向下向后",
+      "慢慢放回到手臂伸直"
+    ],
+    "unit": "reps",
+    "increment": 10
+  },
+  {
+    "id": "Bent_Over_Two-Dumbbell_Row",
+    "nameZh": "俯身哑铃划船",
+    "nameEn": "Bent-Over Dumbbell Row",
+    "equipmentZh": "哑铃",
+    "equipmentEn": "Dumbbells",
+    "bodyPart": "back",
+    "primaryMuscles": [
+      "middle back"
+    ],
+    "images": [
+      "Bent_Over_Two-Dumbbell_Row_0",
+      "Bent_Over_Two-Dumbbell_Row_1"
+    ],
+    "tipsZh": [
+      "双手拿哑铃，膝盖微弯，上身前倾接近与地面平行",
+      "背保持平直，头微微抬起",
+      "把哑铃拉向腰部两侧，手肘贴近身体",
+      "顶部夹紧背部，慢慢放下"
+    ],
+    "unit": "reps",
+    "increment": 5
+  },
+  {
+    "id": "One-Arm_Dumbbell_Row",
+    "nameZh": "单臂哑铃划船",
+    "nameEn": "One-Arm Dumbbell Row",
+    "equipmentZh": "哑铃 + 平板凳",
+    "equipmentEn": "Dumbbell + Flat Bench",
+    "bodyPart": "back",
+    "primaryMuscles": [
+      "middle back"
+    ],
+    "images": [
+      "One-Arm_Dumbbell_Row_0",
+      "One-Arm_Dumbbell_Row_1"
+    ],
+    "tipsZh": [
+      "同侧手和膝盖撑在凳子上，背与地面平行",
+      "另一只手拿哑铃自然下垂",
+      "把哑铃拉到胸部侧面，上臂贴近身体",
+      "用背发力不是手臂，做完一侧换边"
+    ],
+    "unit": "reps",
+    "increment": 5
+  },
+  {
+    "id": "Dumbbell_Bicep_Curl",
+    "nameZh": "哑铃弯举",
+    "nameEn": "Dumbbell Biceps Curl",
+    "equipmentZh": "哑铃",
+    "equipmentEn": "Dumbbells",
+    "bodyPart": "arms",
+    "primaryMuscles": [
+      "biceps"
+    ],
+    "images": [
+      "Dumbbell_Bicep_Curl_0",
+      "Dumbbell_Bicep_Curl_1"
+    ],
+    "tipsZh": [
+      "站直，哑铃垂在身体两侧，掌心向前",
+      "上臂贴住身体不动",
+      "弯曲手肘把哑铃举到肩膀高度",
+      "慢慢放下，身体不要前后晃"
+    ],
+    "unit": "reps",
+    "increment": 5
+  },
+  {
+    "id": "Alternate_Hammer_Curl",
+    "nameZh": "交替锤式弯举",
+    "nameEn": "Alternating Hammer Curl",
+    "equipmentZh": "哑铃",
+    "equipmentEn": "Dumbbells",
+    "bodyPart": "arms",
+    "primaryMuscles": [
+      "biceps"
+    ],
+    "images": [
+      "Alternate_Hammer_Curl_0",
+      "Alternate_Hammer_Curl_1"
+    ],
+    "tipsZh": [
+      "站直，哑铃垂在身体两侧，掌心相对",
+      "上臂不动，一只手把哑铃弯举到肩膀",
+      "慢慢放下，换另一只手",
+      "左右各一次算一次"
+    ],
+    "unit": "reps",
+    "increment": 5
+  },
+  {
+    "id": "Triceps_Pushdown_-_Rope_Attachment",
+    "nameZh": "绳索下压",
+    "nameEn": "Triceps Rope Pushdown",
+    "equipmentZh": "高位拉力器（绳索把手）",
+    "equipmentEn": "Cable Machine + Rope",
+    "bodyPart": "arms",
+    "primaryMuscles": [
+      "triceps"
+    ],
+    "images": [
+      "Triceps_Pushdown_-_Rope_Attachment_0",
+      "Triceps_Pushdown_-_Rope_Attachment_1"
+    ],
+    "tipsZh": [
+      "站直，双手握住绳索，掌心相对",
+      "上臂贴紧身体两侧不动",
+      "向下压到手臂伸直，底部把绳子向两边分开",
+      "慢慢回到小臂与地面平行"
+    ],
+    "unit": "reps",
+    "increment": 10
+  },
+  {
+    "id": "Cable_Crunch",
+    "nameZh": "绳索卷腹",
+    "nameEn": "Cable Crunch",
+    "equipmentZh": "高位拉力器（绳索把手）",
+    "equipmentEn": "Cable Machine + Rope",
+    "bodyPart": "core",
+    "primaryMuscles": [
+      "abdominals"
+    ],
+    "images": [
+      "Cable_Crunch_0",
+      "Cable_Crunch_1"
+    ],
+    "tipsZh": [
+      "跪在拉力器下方，双手握绳放在脸两侧",
+      "臀部保持不动",
+      "用腹部把上身往下卷，手肘朝大腿方向",
+      "慢慢回来，不要用手臂拉"
+    ],
+    "unit": "reps",
+    "increment": 10
+  },
+  {
+    "id": "Dead_Bug",
+    "nameZh": "死虫式",
+    "nameEn": "Dead Bug",
+    "equipmentZh": "无（瑜伽垫）",
+    "equipmentEn": "Body Only",
+    "bodyPart": "core",
+    "primaryMuscles": [
+      "abdominals"
+    ],
+    "images": [
+      "Dead_Bug_0",
+      "Dead_Bug_1"
+    ],
+    "tipsZh": [
+      "仰卧，双手伸向天花板，髋和膝都弯成 90 度",
+      "呼气，让下背贴紧地面",
+      "一条腿慢慢伸直到接近地面，下背不要拱起",
+      "收回，换另一条腿，交替进行"
+    ],
+    "unit": "reps",
+    "increment": 0
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "restSeconds": 90,
+  "templates": [
+    {
+      "id": "A",
+      "nameZh": "训练 A",
+      "exercises": [
+        { "exerciseId": "Leg_Press", "sets": 3, "targetMin": 8, "targetMax": 12 },
+        { "exerciseId": "Leverage_Chest_Press", "sets": 3, "targetMin": 8, "targetMax": 12 },
+        { "exerciseId": "Wide-Grip_Lat_Pulldown", "sets": 3, "targetMin": 8, "targetMax": 12 },
+        { "exerciseId": "Dumbbell_Shoulder_Press", "sets": 3, "targetMin": 8, "targetMax": 12 },
+        { "exerciseId": "Plank", "sets": 3, "targetMin": 20, "targetMax": 40 }
+      ]
+    },
+    {
+      "id": "B",
+      "nameZh": "训练 B",
+      "exercises": [
+        { "exerciseId": "Goblet_Squat", "sets": 3, "targetMin": 8, "targetMax": 12 },
+        { "exerciseId": "Seated_Cable_Rows", "sets": 3, "targetMin": 8, "targetMax": 12 },
+        { "exerciseId": "Dumbbell_Bench_Press", "sets": 3, "targetMin": 8, "targetMax": 12 },
+        { "exerciseId": "Stiff-Legged_Dumbbell_Deadlift", "sets": 3, "targetMin": 8, "targetMax": 12 },
+        { "exerciseId": "Crunches", "sets": 3, "targetMin": 8, "targetMax": 12 }
+      ]
+    }
+  ]
+}

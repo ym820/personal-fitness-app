@@ -34,7 +34,7 @@ personal-fitness-app/
 │   ├── Persistence/                # SwiftData 模型
 │   ├── Sync/PhoneSync.swift
 │   ├── Views/
-│   └── Resources/ExerciseImages/   # 60 张 jpg
+│   └── Assets.xcassets/ExerciseImages/  # 60 张 jpg（asset catalog）
 ├── FitnessWatch/                   # 手表
 │   ├── FitnessWatchApp.swift
 │   ├── Sync/WatchSync.swift
@@ -193,7 +193,7 @@ personal-fitness-app/
 
 文件：
 
-- `scripts/fetch_images.py`：读 `exercises.json`，从 `https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/<id>/0.jpg`（和 `1.jpg`）下载到 `FitnessApp/Resources/ExerciseImages/<id>_0.jpg`、`<id>_1.jpg`。已存在的跳过
+- `scripts/fetch_images.py`：读 `exercises.json`，从 `https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/<id>/0.jpg`（和 `1.jpg`）下载到 asset catalog `FitnessApp/Assets.xcassets/ExerciseImages/<id>_0.imageset/` 等。已存在的跳过
 - `Packages/FitnessCore/Sources/FitnessCore/Resources/exercises.json`：30 个动作，格式：
   ```json
   {
@@ -471,7 +471,7 @@ WatchConnectivity 的字典里只放 `Data`（JSON），日期用 ISO 8601。
 2. **动作库** `LibraryView`：按 `bodyPart` 分 6 组（腿、胸、背、肩、手臂、核心），带搜索（中英文都能搜）。`ExerciseDetailView`：两张示范图左右滑动、中英文名、器材、主要肌群、要点列表
 3. **历史** `HistoryView`：`@Query` 按日期倒序，每行显示日期、训练 A/B、时长。`WorkoutDetailView`：按动作分组列出每组的次数和重量
 
-图片从 `ExerciseImages` 目录用 `UIImage(named:)` 读（XcodeGen 会把目录作为资源打包）。
+图片在 asset catalog 里，直接 `Image("Leg_Press_0")`。
 
 ---
 
