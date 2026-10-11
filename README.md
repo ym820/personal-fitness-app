@@ -1,6 +1,50 @@
 # 个人健身 app
 
-iPhone + Apple Watch 的新手力量训练 app。设计见 `docs/superpowers/specs/`，实现计划见 `docs/superpowers/plans/`。
+新手力量训练 app 的网页版，在 iPhone 上添加到主屏幕使用：https://ym820.github.io/personal-fitness-app/
+
+设计见 `docs/superpowers/specs/`，实现计划见 `docs/superpowers/plans/`。心率和卡路里用 Apple Watch 自带「体能训练」里的「传统力量训练」记录。
+
+## 网页版
+
+代码在 `web/`，没有编译步骤，不用 npm 依赖。动作、计划、视频数据和示范图沿用 iOS 版的文件。
+
+本地预览：
+
+```sh
+scripts/build_web.sh
+python3 -m http.server 8000 -d _site
+```
+
+然后打开 http://localhost:8000/
+
+测试：
+
+```sh
+node --test web/test/*.test.js
+python3 scripts/validate_data.py
+```
+
+部署：推送到 `main` 后，GitHub Actions（`.github/workflows/pages.yml`）跑测试、组装 `_site/` 并发布到 GitHub Pages。
+
+### 在 iPhone 上安装
+
+1. 用 Chrome 打开上面的网址，点地址栏右边的分享按钮 → 「添加到主屏幕」
+2. 以后都从主屏幕图标打开。主屏幕 app 和浏览器标签页的数据不互通
+
+### 训练记录同步到 GitHub
+
+记录存在手机上，填了令牌后会在打开 app、练完、点「立即同步」时自动同步到私有仓库的 `workouts.json`。换手机时填上令牌同步一次就能拉回全部记录。
+
+1. 在 GitHub 新建私有仓库 `fitness-data`，勾选「Add a README file」
+2. 生成令牌：GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token
+   - Repository access 选 Only select repositories → `fitness-data`
+   - Permissions → Repository permissions → Contents 选 Read and write
+3. 在 app 里「历史 → 设置」填仓库 `ym820/fitness-data` 和令牌，点「保存并同步」
+4. 令牌过期后，app 会提示「令牌无效或已过期」，重新生成一个填进去。手机丢了的话，去 GitHub 删掉这个令牌
+
+## iOS app（不再维护）
+
+下面是原来 iPhone + Apple Watch 版本的说明，代码还在仓库里，不再更新。
 
 ## 在 Mac 上构建
 
