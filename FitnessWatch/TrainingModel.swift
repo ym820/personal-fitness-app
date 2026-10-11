@@ -18,9 +18,9 @@ final class TrainingModel {
     /// 结束后等健康数据保存完才有值
     private(set) var summary: WorkoutManager.Summary?
 
-    init(sync: WatchSync = WatchSync(), health: WorkoutManager = WorkoutManager()) {
-        self.sync = sync
-        self.health = health
+    init() {
+        self.sync = WatchSync()
+        self.health = WorkoutManager()
     }
 
     func begin(_ plan: WatchPlan) {
