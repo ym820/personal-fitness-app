@@ -42,7 +42,7 @@ struct ExerciseDetailView: View {
     }
 }
 
-/// 动作示范：起始和结束两张线条图放在一起对比。
+/// 动作示范：起始和结束两张线条图放在一起对比，中间用箭头表示先后。
 /// 线条图是模板图，跟着文字颜色走，深色模式自动变白。
 /// 两帧的大小和角度不完全一致，所以不做淡入淡出切换（会出现重影），直接并排更清楚。
 /// 横向的图（比如腿举）上下排，竖向的图（比如深蹲）左右排，让图尽量大。
@@ -57,7 +57,7 @@ private struct ExerciseDemo: View {
     var body: some View {
         let layout = isWide
             ? AnyLayout(VStackLayout(spacing: 4))
-            : AnyLayout(HStackLayout(alignment: .bottom, spacing: 4))
+            : AnyLayout(HStackLayout(spacing: 4))
 
         layout {
             ForEach(Array(exercise.images.enumerated()), id: \.offset) { index, name in
@@ -65,9 +65,9 @@ private struct ExerciseDemo: View {
                     Image(systemName: isWide ? "arrow.down" : "arrow.right")
                         .font(.footnote.weight(.semibold))
                         .foregroundStyle(.tertiary)
-                        .frame(maxHeight: isWide ? nil : .infinity)
                 }
-                frame(name: name, index: index)
+                art(name)
+                    .frame(maxHeight: isWide ? 150 : nil)
             }
         }
         .frame(height: isWide ? nil : 220)
@@ -78,24 +78,6 @@ private struct ExerciseDemo: View {
         .accessibilityLabel("\(exercise.nameZh)示范图")
     }
 
-    private func frame(name: String, index: Int) -> some View {
-        let label = exercise.images.count > 1 ? (index == 0 ? "起始" : "结束") : nil
-        return Group {
-            if isWide {
-                HStack(alignment: .top, spacing: 8) {
-                    art(name).frame(maxHeight: 150)
-                    if let label { caption(label).frame(width: 28) }
-                }
-            } else {
-                VStack(spacing: 6) {
-                    art(name)
-                    if let label { caption(label) }
-                }
-                .frame(maxWidth: .infinity)
-            }
-        }
-    }
-
     private func art(_ name: String) -> some View {
         Image(name)
             .renderingMode(.template)
@@ -103,12 +85,6 @@ private struct ExerciseDemo: View {
             .scaledToFit()
             .foregroundStyle(.primary)
             .frame(maxWidth: .infinity)
-    }
-
-    private func caption(_ text: String) -> some View {
-        Text(text)
-            .font(.caption.weight(.semibold))
-            .foregroundStyle(.secondary)
     }
 }
 
