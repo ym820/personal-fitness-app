@@ -46,6 +46,21 @@ def main():
                 errors.append(f"{name}: 缺少图片 {image}.svg")
 
     known = set(ids)
+
+    videos = json.loads((RESOURCES / "videos.json").read_text())
+    for exercise_id, items in videos.items():
+        if exercise_id not in known:
+            errors.append(f"videos.json: {exercise_id} 不在 exercises.json 里")
+        if not 1 <= len(items) <= 2:
+            errors.append(f"videos.json: {exercise_id} 应该有 1 到 2 个视频")
+        for video in items:
+            missing = [key for key in ("platform", "id", "title", "author") if not video.get(key)]
+            if missing:
+                errors.append(f"videos.json: {exercise_id} 的视频缺少 {missing}")
+            if video.get("platform") not in ("youtube", "bilibili"):
+                errors.append(f"videos.json: {exercise_id} 的 platform 只能是 youtube 或 bilibili")
+            if video.get("platform") == "bilibili" and not str(video.get("id", "")).startswith("BV"):
+                errors.append(f"videos.json: {exercise_id} 的 B 站 id 应该是 BV 号")
     for template in plan["templates"]:
         for item in template["exercises"]:
             if item["exerciseId"] not in known:
@@ -56,7 +71,7 @@ def main():
     if errors:
         print("\n".join(errors))
         sys.exit(1)
-    print(f"OK：{len(exercises)} 个动作，{len(plan['templates'])} 套训练")
+    print(f"OK：{len(exercises)} 个动作，{len(plan['templates'])} 套训练，{len(videos)} 个动作有示范视频")
 
 
 if __name__ == "__main__":

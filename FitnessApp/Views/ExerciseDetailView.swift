@@ -14,6 +14,11 @@ struct ExerciseDetailView: View {
                     Text(exercise.nameEn).font(.title3).foregroundStyle(.secondary)
                 }
 
+                let videos = Catalog.bundled.videos(for: exercise.id)
+                if !videos.isEmpty {
+                    VideoSection(videos: videos)
+                }
+
                 VStack(alignment: .leading, spacing: 10) {
                     InfoRow(title: "器材", value: exercise.equipmentZh, detail: exercise.equipmentEn)
                     InfoRow(title: "主要练到", value: exercise.primaryMuscles.map(Format.muscleZh).joined(separator: "、"), detail: nil)
