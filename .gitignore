@@ -1,0 +1,12 @@
+# Xcode（工程由 xcodegen 生成）
+*.xcodeproj
+*.xcworkspace
+xcuserdata/
+DerivedData/
+
+# SwiftPM
+.build/
+.swiftpm/
+
+# macOS
+.DS_Store

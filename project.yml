@@ -1,0 +1,68 @@
+name: FitnessApp
+options:
+  bundleIdPrefix: com.ym820.fitness
+  deploymentTarget:
+    iOS: "18.0"
+    watchOS: "11.0"
+  developmentLanguage: zh-Hans
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: "" # 填你的 Team ID，之后生成工程就不用每次手动选
+packages:
+  FitnessCore:
+    path: Packages/FitnessCore
+targets:
+  FitnessApp:
+    type: application
+    platform: iOS
+    sources: [FitnessApp]
+    dependencies:
+      - package: FitnessCore
+      - target: FitnessWatch
+        embed: true
+        copy:
+          destination: productsDirectory
+          subpath: $(CONTENTS_FOLDER_PATH)/Watch
+    entitlements:
+      path: FitnessApp/FitnessApp.entitlements
+      properties:
+        com.apple.developer.healthkit: true
+    info:
+      path: FitnessApp/Info.plist
+      properties:
+        CFBundleDisplayName: 健身
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        NSHealthShareUsageDescription: 读取心率和卡路里，显示在训练总结里
+        NSHealthUpdateUsageDescription: 把力量训练保存到健康 app
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ym820.fitness
+        TARGETED_DEVICE_FAMILY: "1"
+  FitnessWatch:
+    type: application
+    platform: watchOS
+    sources: [FitnessWatch]
+    dependencies:
+      - package: FitnessCore
+    entitlements:
+      path: FitnessWatch/FitnessWatch.entitlements
+      properties:
+        com.apple.developer.healthkit: true
+    info:
+      path: FitnessWatch/Info.plist
+      properties:
+        CFBundleDisplayName: 健身
+        WKApplication: true
+        WKCompanionAppBundleIdentifier: com.ym820.fitness
+        WKBackgroundModes: [workout-processing]
+        NSHealthShareUsageDescription: 读取心率和卡路里，显示在训练总结里
+        NSHealthUpdateUsageDescription: 把力量训练保存到健康 app
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ym820.fitness.watchkitapp
+        TARGETED_DEVICE_FAMILY: "4"
