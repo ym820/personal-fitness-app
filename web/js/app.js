@@ -107,6 +107,7 @@ async function start() {
   });
   render();
   syncNow();
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 
 start();
