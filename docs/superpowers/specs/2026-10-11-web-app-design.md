@@ -96,12 +96,13 @@ iOS app 装不到自己的 iPhone 上：手机装了公司的管理描述文件�
 
 ### 训练记录
 
-沿用 iOS 版 `HistoryWorkout` / `HistorySet` 的结构，加 `id` 和 `deleted`：
+沿用 iOS 版 `HistoryWorkout` / `HistorySet` 的结构，加 `id`、`durationSeconds` 和 `deleted`：
 
 ```json
 {
   "id": "随机生成的唯一编号",
   "date": "2026-10-12T18:30:00+08:00",
+  "durationSeconds": 1820,
   "templateId": "A",
   "sets": [
     { "exerciseId": "Leg_Press", "setIndex": 0, "value": 12, "weightLb": 90 }
@@ -111,6 +112,7 @@ iOS app 装不到自己的 iPhone 上：手机装了公司的管理描述文件�
 ```
 
 - `id`：合并记录时用来认出是不是同一次训练
+- `date`：开始训练的时间；`durationSeconds`：从开始到结束的秒数，历史页和结束页显示
 - `value`：次数，或平板支撑这类动作的秒数
 - `deleted`：删除一次训练时只做标记，不真的移除，否则下次同步会被 GitHub 上的旧记录带回来。算下次训练和显示历史时跳过已删除的记录
 
