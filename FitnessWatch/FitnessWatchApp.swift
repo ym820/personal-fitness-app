@@ -1,11 +1,14 @@
 import SwiftUI
-import FitnessCore
 
 @main
 struct FitnessWatchApp: App {
+    @State private var model = TrainingModel()
+
     var body: some Scene {
         WindowGroup {
-            Text("Hello，动作库 \((try? Catalog.load())?.exercises.count ?? 0) 个")
+            RootView()
+                .environment(model)
+                .task { model.sync.start() }
         }
     }
 }

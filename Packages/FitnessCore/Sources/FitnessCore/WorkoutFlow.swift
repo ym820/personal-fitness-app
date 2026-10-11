@@ -1,7 +1,7 @@
 /// 手表上一次训练的流程：做组 → 休息 → 下一组 → 下一个动作 → 结束。
 /// 页面只负责显示 `phase` 和调用这里的方法。
 public struct WorkoutFlow: Equatable, Sendable {
-    public struct Position: Equatable, Sendable {
+    public struct Position: Hashable, Sendable {
         public let exerciseIndex: Int
         public let setIndex: Int
 
