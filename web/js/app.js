@@ -8,6 +8,7 @@ import { exerciseView, libraryView } from './views/library.js';
 import { historyView, workoutDetailView } from './views/history.js';
 import { settingsView } from './views/settings.js';
 import { doneView, workoutView } from './views/workout.js';
+import { navKind } from './nav.js';
 
 /** localStorage 能用就用；无痕模式等情况下用内存代替，并显示提示 */
 function pickStorage() {
@@ -68,6 +69,34 @@ function render() {
   document.body.classList.toggle('in-workout', section === 'workout' || section === 'done');
 }
 
+/** 每个页面离开时的滚动位置，返回时回到原处 */
+const scrollPositions = new Map();
+let currentHash = location.hash || '#/today';
+let skipNextTransition = false;
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+
+/** 换页：返回时恢复滚动位置，点进新页面回到顶部；支持的浏览器播放滑入、滑出或淡入淡出 */
+function go(skipTransition = false) {
+  const from = currentHash;
+  const to = location.hash || '#/today';
+  scrollPositions.set(from, scrollY);
+  currentHash = to;
+  const kind = navKind(from, to);
+  const update = () => {
+    render();
+    scrollTo(0, kind === 'back' ? (scrollPositions.get(to) ?? 0) : 0);
+  };
+  if (kind === 'none' || skipTransition || reducedMotion.matches || !document.startViewTransition) {
+    update();
+    return;
+  }
+  const root = document.documentElement;
+  root.dataset.nav = kind;
+  document.startViewTransition(update).finished.finally(() => {
+    if (root.dataset.nav === kind) delete root.dataset.nav;
+  });
+}
+
 /** 一次同步：读最新的本地记录和设置，同步后和最新的本地记录再合并一次，同步期间新存的记录不丢 */
 const runSync = coalesce(async () => {
   const { token, repo } = app.store.loadSettings();
@@ -103,10 +132,17 @@ async function start() {
     main.innerHTML = String(html`<div class="empty"><p>${error.message}</p><button class="button" onclick="location.reload()">重试</button></div>`);
     return;
   }
-  addEventListener('hashchange', () => {
-    render();
-    scrollTo(0, 0);
+  addEventListener('popstate', event => {
+    // Safari 侧滑返回自己已经播过动画，这次不再播
+    skipNextTransition = Boolean(event.hasUAVisualTransition);
   });
+  addEventListener('hashchange', () => {
+    const skip = skipNextTransition;
+    skipNextTransition = false;
+    go(skip);
+  });
+  // iOS 上没有 touchstart 监听时 :active 不生效，点击就没有按下反馈
+  document.addEventListener('touchstart', () => {}, { passive: true });
   render();
   syncNow();
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});

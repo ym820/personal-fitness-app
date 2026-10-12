@@ -261,6 +261,24 @@ body.in-workout .bottom-action { bottom: 0; margin-top: auto; padding-bottom: ca
 .tabbar a.active svg { color: var(--accent); }
 .tabbar svg { width: 24px; height: 24px; }
 
+/* ---------- 换页动画（View Transitions） ---------- */
+/* 标签栏单独成层，换页时不跟着动 */
+.tabbar { view-transition-name: tabbar; }
+::view-transition-group(root) { animation-duration: 0.38s; animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1); }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.38s; animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1); }
+/* 点进去：新页从右边滑入盖在上面，旧页往左退一点并变暗 */
+html[data-nav=forward]::view-transition-old(root) { animation-name: nav-push-under; }
+html[data-nav=forward]::view-transition-new(root) { animation-name: nav-slide-in; box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12); }
+/* 返回：当前页往右滑出，下面的页从左边回来 */
+html[data-nav=back]::view-transition-old(root) { animation-name: nav-slide-out; z-index: 1; box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12); }
+html[data-nav=back]::view-transition-new(root) { animation-name: nav-pop-under; }
+/* 切标签：快速淡入淡出 */
+html[data-nav=fade]::view-transition-old(root), html[data-nav=fade]::view-transition-new(root) { animation-duration: 0.18s; animation-timing-function: ease-out; }
+@keyframes nav-slide-in { from { transform: translateX(100%); } }
+@keyframes nav-slide-out { to { transform: translateX(100%); } }
+@keyframes nav-push-under { to { transform: translateX(-28%); filter: brightness(0.92); } }
+@keyframes nav-pop-under { from { transform: translateX(-28%); filter: brightness(0.92); } }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
   .button:active, .video:active, .round:active { transform: none; }
