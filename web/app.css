@@ -264,8 +264,14 @@ body.in-workout .bottom-action { bottom: 0; margin-top: auto; padding-bottom: ca
 /* ---------- 换页动画（View Transitions） ---------- */
 /* 标签栏单独成层，换页时不跟着动 */
 .tabbar { view-transition-name: tabbar; }
-::view-transition-group(root) { animation-duration: 0.38s; animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1); }
-::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.38s; animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1); }
+/* 弹簧曲线：临界阻尼、带初速度，点下去马上动，结尾慢慢停稳，不回弹 */
+:root {
+  --spring: linear(0, 0.208, 0.377, 0.513, 0.621, 0.707, 0.774, 0.826, 0.867, 0.898, 0.923, 0.941,
+    0.955, 0.966, 0.974, 0.981, 0.985, 0.989, 0.992, 0.994, 0.995, 0.997, 0.997, 0.998, 1);
+}
+::view-transition-group(root), ::view-transition-old(root), ::view-transition-new(root) {
+  animation-duration: 0.55s; animation-timing-function: var(--spring);
+}
 /* 点进去：新页从右边滑入盖在上面，旧页往左退一点并变暗 */
 html[data-nav=forward]::view-transition-old(root) { animation-name: nav-push-under; }
 html[data-nav=forward]::view-transition-new(root) { animation-name: nav-slide-in; box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12); }
@@ -273,7 +279,7 @@ html[data-nav=forward]::view-transition-new(root) { animation-name: nav-slide-in
 html[data-nav=back]::view-transition-old(root) { animation-name: nav-slide-out; z-index: 1; box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12); }
 html[data-nav=back]::view-transition-new(root) { animation-name: nav-pop-under; }
 /* 切标签：快速淡入淡出 */
-html[data-nav=fade]::view-transition-old(root), html[data-nav=fade]::view-transition-new(root) { animation-duration: 0.18s; animation-timing-function: ease-out; }
+html[data-nav=fade]::view-transition-old(root), html[data-nav=fade]::view-transition-new(root) { animation-duration: 0.2s; animation-timing-function: var(--ease-out); }
 @keyframes nav-slide-in { from { transform: translateX(100%); } }
 @keyframes nav-slide-out { to { transform: translateX(100%); } }
 @keyframes nav-push-under { to { transform: translateX(-28%); filter: brightness(0.92); } }
