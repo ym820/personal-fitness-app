@@ -65,7 +65,7 @@ function render() {
   const section = hash.split('/')[1];
   const tab = TAB_FOR[section] ?? section;
   document.querySelectorAll('.tabbar a').forEach(a => a.classList.toggle('active', a.dataset.tab === tab));
-  document.body.classList.toggle('in-workout', section === 'workout');
+  document.body.classList.toggle('in-workout', section === 'workout' || section === 'done');
 }
 
 /** 一次同步：读最新的本地记录和设置，同步后和最新的本地记录再合并一次，同步期间新存的记录不丢 */

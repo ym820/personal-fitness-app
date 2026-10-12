@@ -2,7 +2,7 @@ import { html } from '../dom.js';
 import { isWeighted } from '../catalog.js';
 import { estimatedDurationSeconds, nextWorkout, totalSets } from '../plan.js';
 import * as F from '../format.js';
-import { tag, templateName, thumb } from './common.js';
+import { index2, stats, templateName, thumb } from './common.js';
 import { startSession } from './workout.js';
 
 export function todayView(app) {
@@ -11,21 +11,20 @@ export function todayView(app) {
   const workout = nextWorkout(catalog, done);
   const last = done.reduce((a, w) => (!a || Date.parse(w.date) > Date.parse(a.date) ? w : a), null);
   const rest = catalog.plan.restSeconds;
+  const minutes = Math.max(5, Math.round(estimatedDurationSeconds(workout, rest) / 60 / 5) * 5);
 
   return {
     html: html`
-      <h1 class="large-title">今天</h1>
-      <section class="card hero">
-        <p class="secondary">下次训练</p>
-        <h2>${templateName(catalog, workout.templateId)}</h2>
-        <p>${workout.exercises.length} 个动作 · ${totalSets(workout)} 组 · ${F.approxMinutes(estimatedDurationSeconds(workout, rest))}</p>
-        <p class="footnote secondary">${last ? `上次：${F.dateShort(last.date)} ${templateName(catalog, last.templateId)}` : '第一次训练，点下面的「开始训练」'}</p>
+      <p class="eyebrow">${F.dateShort(new Date().toISOString())}${last ? ` · 上次 ${F.dateShort(last.date)}` : ''}</p>
+      <section class="hero">
+        <small>${last ? '下次训练' : '第一次训练'}</small>
+        <h1>${templateName(catalog, workout.templateId)}</h1>
       </section>
-      <h3 class="section-header">动作</h3>
-      <ul class="list">${workout.exercises.map(t => row(catalog.exercise(t.exerciseId), t))}</ul>
-      <p class="section-footer">每组之间休息 ${rest} 秒。所有组都做到最高次数，下次会自动加重。</p>
+      ${stats([[workout.exercises.length, '动作'], [totalSets(workout), '组'], [`~${minutes}`, '分钟']])}
+      <ul class="list">${workout.exercises.map((t, i) => row(catalog.exercise(t.exerciseId), t, i))}</ul>
+      <p class="section-footer">每组之间休息 ${rest} 秒。所有组都做到最高次数，下次自动加重。</p>
       <div class="bottom-action">
-        <button class="button primary" data-action="start">${store.loadSession() ? '继续训练' : '开始训练'}</button>
+        <button class="button primary" data-action="start">${store.loadSession() ? '继续训练' : '开始训练'}<span class="dot" aria-hidden="true">→</span></button>
       </div>`,
     mount(root) {
       root.querySelector('[data-action=start]').addEventListener('click', () => {
@@ -36,19 +35,23 @@ export function todayView(app) {
   };
 }
 
-function row(exercise, t) {
+function row(exercise, t, i) {
   return html`<li><a class="row" href="#/exercise/${exercise.id}">
+    <span class="idx num">${index2(i)}</span>
     ${thumb(exercise)}
     <div class="row-text">
       <strong>${exercise.nameZh}</strong>
-      <span class="secondary">${exercise.nameEn}</span>
-      <span class="footnote num">${t.sets} × ${F.target(t.targetMin, t.targetMax, exercise.unit)} ${weightTag(exercise, t)}</span>
+      <span class="num">${t.sets} × ${F.target(t.targetMin, t.targetMax, exercise.unit)}</span>
     </div>
+    ${weight(exercise, t)}
   </a></li>`;
 }
 
-function weightTag(exercise, t) {
+function weight(exercise, t) {
   if (!isWeighted(exercise)) return '';
-  if (t.weightLb === null) return tag('首次，开始后填重量', 'orange');
-  return html`${F.weight(t.weightLb)} ${t.suggestIncrease ? tag(`加重 +${F.weight(exercise.increment)}`, 'green') : ''}`;
+  if (t.weightLb === null) return html`<div class="row-end"><b class="secondary">—</b><span>首次</span></div>`;
+  return html`<div class="row-end num">
+    <b>${F.number(t.weightLb)}<small>lb</small></b>
+    ${t.suggestIncrease ? html`<span class="accent">↑ +${F.number(exercise.increment)}</span>` : ''}
+  </div>`;
 }

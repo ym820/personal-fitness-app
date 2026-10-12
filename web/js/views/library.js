@@ -25,7 +25,7 @@ export function libraryView(app) {
 function groups(list) {
   return BODY_PARTS.map(([part, name]) => {
     const items = list.filter(e => e.bodyPart === part);
-    return items.length ? html`<h3 class="section-header">${name}</h3><ul class="list">${items.map(row)}</ul>` : '';
+    return items.length ? html`<h3 class="section-header">${name} · ${items.length}</h3><ul class="list">${items.map(row)}</ul>` : '';
   });
 }
 
@@ -34,9 +34,9 @@ function row(exercise) {
     ${thumb(exercise)}
     <div class="row-text">
       <strong>${exercise.nameZh}</strong>
-      <span class="secondary">${exercise.nameEn}</span>
-      <span class="footnote secondary">${exercise.equipmentZh}</span>
+      <span>${exercise.nameEn} · ${exercise.equipmentZh}</span>
     </div>
+    <span class="chevron" aria-hidden="true">›</span>
   </a></li>`;
 }
 
@@ -47,12 +47,11 @@ export function exerciseView(app, id) {
 
   return {
     html: html`
-      <nav class="navbar"><button class="back" data-action="back">‹ 返回</button><span>${exercise.nameZh}</span></nav>
+      <nav class="navbar"><button class="back" data-action="back">‹ 返回</button></nav>
       <div class="demo" data-demo role="img" aria-label="${exercise.nameZh}示范图">
         ${exercise.images.map((name, i) => html`${i > 0 ? html`<span class="demo-arrow" aria-hidden="true">→</span>` : ''}${art(name)}`)}
       </div>
-      <h1 class="title">${exercise.nameZh}</h1>
-      <p class="subtitle secondary">${exercise.nameEn}</p>
+      <header class="detail-title"><h1 class="title">${exercise.nameZh}</h1><p>${exercise.nameEn}</p></header>
       ${videos.length ? html`<h3 class="section-header">示范视频</h3><div class="videos">${videos.map(videoCard)}</div>` : ''}
       <dl class="info">
         <dt>器材</dt><dd>${exercise.equipmentZh}<span class="footnote secondary">${exercise.equipmentEn}</span></dd>

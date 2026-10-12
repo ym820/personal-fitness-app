@@ -65,3 +65,6 @@ export function setText(set, exercise) {
   const text = value(set.value, exercise?.unit ?? 'reps');
   return exercise && !isWeighted(exercise) ? text : `${text} × ${weight(set.weightLb)}`;
 }
+
+/** 总重量：每组次数 × 重量相加，自重动作重量是 0 不计入 */
+export const volume = sets => sets.reduce((sum, s) => sum + s.value * s.weightLb, 0);

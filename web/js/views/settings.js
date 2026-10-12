@@ -8,10 +8,11 @@ export function settingsView(app) {
 
   return {
     html: html`
-      <nav class="navbar"><a class="back" href="#/history">‹ 历史</a><span>设置</span></nav>
-      <h3 class="section-header">GitHub 同步</h3>
+      <nav class="navbar"><a class="back" href="#/history">‹ 记录</a></nav>
+      <h1 class="large-title">设置</h1>
+      <h3 class="section-header" style="margin-top:0">GitHub 同步</h3>
       <form data-form>
-        <ul class="list">
+        <ul class="group">
           <li><label class="field"><span>仓库</span>
             <input name="repo" value="${settings.repo}" placeholder="用户名/仓库名" autocapitalize="off" autocorrect="off" spellcheck="false">
           </label></li>
@@ -23,7 +24,7 @@ export function settingsView(app) {
         <div class="stack"><button class="button primary" type="submit">保存并同步</button></div>
       </form>
       <h3 class="section-header">状态</h3>
-      <ul class="list"><li class="pair"><span>同步</span><span class="secondary">${statusText(settings, status, app.syncing)}</span></li></ul>
+      <ul class="group"><li class="pair"><span>同步</span><span class="secondary">${statusText(settings, status, app.syncing)}</span></li></ul>
       ${status.error ? html`<p class="section-footer error">${status.error}</p>` : ''}
       ${settings.token
         ? html`<div class="stack">
