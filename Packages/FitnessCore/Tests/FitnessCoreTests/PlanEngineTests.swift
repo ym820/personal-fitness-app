@@ -48,8 +48,9 @@ import Testing
         #expect(next.templateId == "A")
         #expect(next.exercises.map(\.exerciseId) == catalog.template("A")!.exercises.map(\.exerciseId))
         #expect(try target(next, "Leg_Press").weightLb == nil)
-        #expect(try target(next, "Plank").weightLb == 0)
         #expect(next.exercises.allSatisfy { !$0.suggestIncrease })
+        let nextB = PlanEngine.next(catalog: catalog, history: [workout("A", day: 1)])
+        #expect(try target(nextB, "Crunches").weightLb == 0)
     }
 
     @Test func copiesPlanTargets() throws {
@@ -58,9 +59,9 @@ import Testing
         #expect(legPress.sets == 3)
         #expect(legPress.targetMin == 8)
         #expect(legPress.targetMax == 12)
-        let plank = try target(next, "Plank")
-        #expect(plank.targetMin == 20)
-        #expect(plank.targetMax == 40)
+        let cableCrunch = try target(next, "Cable_Crunch")
+        #expect(cableCrunch.targetMin == 10)
+        #expect(cableCrunch.targetMax == 15)
     }
 
     @Test func allSetsAtMaxIncreasesMachineBy10() throws {
@@ -102,12 +103,12 @@ import Testing
 
     @Test func bodyweightNeverSuggestsIncrease() throws {
         let history = [
-            workout("A", day: 1, sets("Plank", [40, 40, 40], weight: 0)),
-            workout("B", day: 3),
+            workout("B", day: 1, sets("Crunches", [12, 12, 12], weight: 0)),
+            workout("A", day: 3),
         ]
-        let plank = try target(PlanEngine.next(catalog: catalog, history: history), "Plank")
-        #expect(plank.weightLb == 0)
-        #expect(!plank.suggestIncrease)
+        let crunches = try target(PlanEngine.next(catalog: catalog, history: history), "Crunches")
+        #expect(crunches.weightLb == 0)
+        #expect(!crunches.suggestIncrease)
     }
 
     @Test func usesHeaviestSetOfMostRecentWorkout() throws {

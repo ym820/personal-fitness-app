@@ -30,8 +30,8 @@ test('第一次：负重动作没有重量，自重动作为 0，不提示加重
   assert.equal(next.templateId, 'A');
   assert.deepEqual(next.exercises.map(e => e.exerciseId), catalog.template('A').exercises.map(e => e.exerciseId));
   assert.equal(target(next, 'Leg_Press').weightLb, null);
-  assert.equal(target(next, 'Plank').weightLb, 0);
   assert.ok(next.exercises.every(e => !e.suggestIncrease));
+  assert.equal(target(nextWorkout(catalog, [workout('A', 1)]), 'Crunches').weightLb, 0);
 });
 
 test('照抄计划里的组数和目标', () => {
@@ -40,9 +40,9 @@ test('照抄计划里的组数和目标', () => {
   assert.equal(legPress.sets, 3);
   assert.equal(legPress.targetMin, 8);
   assert.equal(legPress.targetMax, 12);
-  const plank = target(next, 'Plank');
-  assert.equal(plank.targetMin, 20);
-  assert.equal(plank.targetMax, 40);
+  const cableCrunch = target(next, 'Cable_Crunch');
+  assert.equal(cableCrunch.targetMin, 10);
+  assert.equal(cableCrunch.targetMax, 15);
 });
 
 test('所有组做满，器械加 10 lb', () => {
@@ -74,10 +74,10 @@ test('哑铃加 5 lb', () => {
 });
 
 test('自重动作不提示加重', () => {
-  const history = [workout('A', 1, sets('Plank', [40, 40, 40], 0)), workout('B', 3)];
-  const plank = target(nextWorkout(catalog, history), 'Plank');
-  assert.equal(plank.weightLb, 0);
-  assert.equal(plank.suggestIncrease, false);
+  const history = [workout('B', 1, sets('Crunches', [12, 12, 12], 0)), workout('A', 3)];
+  const crunches = target(nextWorkout(catalog, history), 'Crunches');
+  assert.equal(crunches.weightLb, 0);
+  assert.equal(crunches.suggestIncrease, false);
 });
 
 test('用最近一次训练里最重的一组', () => {

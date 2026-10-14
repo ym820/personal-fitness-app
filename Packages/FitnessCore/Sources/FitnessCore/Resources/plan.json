@@ -9,7 +9,7 @@
         { "exerciseId": "Leverage_Chest_Press", "sets": 3, "targetMin": 8, "targetMax": 12 },
         { "exerciseId": "Wide-Grip_Lat_Pulldown", "sets": 3, "targetMin": 8, "targetMax": 12 },
         { "exerciseId": "Dumbbell_Shoulder_Press", "sets": 3, "targetMin": 8, "targetMax": 12 },
-        { "exerciseId": "Plank", "sets": 3, "targetMin": 20, "targetMax": 40 }
+        { "exerciseId": "Cable_Crunch", "sets": 3, "targetMin": 10, "targetMax": 15 }
       ]
     },
     {
