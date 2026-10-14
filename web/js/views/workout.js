@@ -45,19 +45,21 @@ function header(session, flow) {
 
 /** 器械被占时换到别的没做完的动作：底部弹出列表，点哪个就换到哪个 */
 function switchSheet(app, flow) {
-  const options = flow.switchable();
-  if (options.length === 0) return '';
+  if (flow.switchable().length === 0) return '';
+  const current = flow.position.exerciseIndex;
   return html`
     <dialog class="sheet" data-switch-sheet>
-      <p class="eyebrow">换一个动作，这个之后再做</p>
-      <ul class="list">${options.map(i => {
-        const target = flow.workout.exercises[i];
+      <p class="eyebrow">换一个动作</p>
+      <ul class="list">${flow.workout.exercises.map((target, i) => {
+        if (i === current) return '';
         const exercise = app.catalog.exercise(target.exerciseId);
-        const done = flow.doneSets(i);
-        return html`<li><button class="row" data-switch-to="${i}">
+        const left = target.sets - flow.doneSets(i);
+        return html`<li><button class="row" data-switch-to="${i}" ${left > 0 ? '' : 'disabled'}>
           ${thumb(exercise)}
           <div class="row-text"><strong>${exercise.nameZh}</strong><span>${exercise.nameEn}</span></div>
-          <div class="row-end num"><span>${done ? `已做 ${done} / ${target.sets} 组` : `${target.sets} 组`}</span></div>
+          <div class="row-end num">${left > 0
+            ? html`<span>还剩 ${left} 组</span><span>未完成</span>`
+            : html`<span>已完成</span>`}</div>
         </button></li>`;
       })}</ul>
       <button class="button" data-action="close-sheet">取消</button>

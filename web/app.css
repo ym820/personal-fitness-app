@@ -251,6 +251,7 @@ body.in-workout .bottom-action { bottom: 0; margin-top: auto; padding-bottom: ca
 .sheet::backdrop { background: rgba(0, 0, 0, 0.35); }
 .sheet .list { margin: 8px 0 16px; }
 .sheet .row { width: 100%; border: 0; background: none; text-align: left; }
+.sheet .row:disabled { opacity: 0.4; }
 @keyframes sheet-up { from { transform: translateY(100%); } }
 
 .done { flex: 1; display: flex; flex-direction: column; padding: 48px 0 calc(16px + var(--safe-bottom)); }
