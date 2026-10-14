@@ -43,6 +43,44 @@ function header(session, flow) {
       html`<i style="--p: ${e.sets ? Math.round((doneOf(e.exerciseId) / e.sets) * 100) : 100}%"></i>`)}</div>`;
 }
 
+/** 器械被占时换到别的没做完的动作：底部弹出列表，点哪个就换到哪个 */
+function switchSheet(app, flow) {
+  const options = flow.switchable();
+  if (options.length === 0) return '';
+  return html`
+    <dialog class="sheet" data-switch-sheet>
+      <p class="eyebrow">换一个动作，这个之后再做</p>
+      <ul class="list">${options.map(i => {
+        const target = flow.workout.exercises[i];
+        const exercise = app.catalog.exercise(target.exerciseId);
+        const done = flow.doneSets(i);
+        return html`<li><button class="row" data-switch-to="${i}">
+          ${thumb(exercise)}
+          <div class="row-text"><strong>${exercise.nameZh}</strong><span>${exercise.nameEn}</span></div>
+          <div class="row-end num"><span>${done ? `已做 ${done} / ${target.sets} 组` : `${target.sets} 组`}</span></div>
+        </button></li>`;
+      })}</ul>
+      <button class="button" data-action="close-sheet">取消</button>
+    </dialog>`;
+}
+
+function mountSwitch(root, app, session, flow, extra = () => ({})) {
+  const sheet = root.querySelector('[data-switch-sheet]');
+  if (!sheet) return;
+  root.querySelector('[data-action=switch]').addEventListener('click', () => sheet.showModal());
+  sheet.querySelector('[data-action=close-sheet]').addEventListener('click', () => sheet.close());
+  // 点遮罩关闭
+  sheet.addEventListener('click', event => { if (event.target === sheet) sheet.close(); });
+  for (const button of sheet.querySelectorAll('[data-switch-to]')) {
+    button.addEventListener('click', () => {
+      flow.switchTo(Number(button.dataset.switchTo));
+      app.store.saveSession({ ...session, ...extra(), flow: flow.toJSON(), draft: null });
+      sheet.close();
+      app.refresh();
+    });
+  }
+}
+
 const elapsed = session => (Date.now() - Date.parse(session.startedAt)) / 1000;
 
 /** 每秒刷新顶部的已练时长 */
@@ -73,14 +111,16 @@ function setScreen(app, session, flow) {
         </div>
         ${thumb(exercise, 'large')}
       </section>
-      <p class="set-meta num"><span class="pill">第 ${position.setIndex + 1} 组 / ${target.sets}</span><span class="secondary">目标 ${F.target(target.targetMin, target.targetMax, exercise.unit)}</span></p>
+      <p class="set-meta num"><span class="pill">第 ${position.setIndex + 1} 组 / ${target.sets}</span><span class="secondary">目标 ${F.target(target.targetMin, target.targetMax, exercise.unit)}</span>${flow.switchable().length
+        ? html`<button class="link switch" data-action="switch">换动作</button>` : ''}</p>
       ${stepper('value', exercise.unit === 'seconds' ? '秒数' : '次数', '', valueText, exercise.unit === 'seconds' ? 5 : 1, F.unitZh(exercise.unit), 'numeric')}
       ${weighted
         ? stepper('weight', '重量', defaultWeight === null
           ? html`<span class="accent">第一次做，先填一个重量</span>`
           : `每次 ±${F.weight(exercise.increment)}`, weightText, exercise.increment, 'lb', 'decimal')
         : ''}
-      <div class="bottom-action"><button class="button primary" data-action="done">完成这组<span class="dot" aria-hidden="true">✓</span></button></div>`,
+      <div class="bottom-action"><button class="button primary" data-action="done">完成这组<span class="dot" aria-hidden="true">✓</span></button></div>
+      ${switchSheet(app, flow)}`,
     mount(root) {
       const input = name => root.querySelector(`input[name=${name}]`);
       const done = root.querySelector('[data-action=done]');
@@ -121,6 +161,7 @@ function setScreen(app, session, flow) {
         app.refresh();
       });
       root.querySelector('[data-action=end]').addEventListener('click', () => endWorkout(app, session, flow));
+      mountSwitch(root, app, session, flow);
       const release = keepAwake();
       const stopClock = runClock(root, session);
       return () => {
@@ -186,11 +227,13 @@ function restScreen(app, session, flow) {
             <span>${F.target(target.targetMin, target.targetMax, next.unit)}</span>
           </div>
         </div>
+        ${flow.switchable().length ? html`<button class="link switch" data-action="switch">换一个动作</button>` : ''}
       </section>
       <div class="bottom-action row-buttons">
         <button class="button" data-action="add">+30 秒</button>
         <button class="button primary" data-action="skip">跳过</button>
-      </div>`,
+      </div>
+      ${switchSheet(app, flow)}`,
     mount(root) {
       const label = root.querySelector('[data-countdown]');
       const ring = root.querySelector('[data-ring]');
@@ -214,6 +257,8 @@ function restScreen(app, session, flow) {
       });
       root.querySelector('[data-action=skip]').addEventListener('click', finishRest);
       root.querySelector('[data-action=end]').addEventListener('click', () => endWorkout(app, session, flow));
+      // 休息倒计时照常走，只换休息完要做的动作
+      mountSwitch(root, app, session, flow, () => ({ restEndsAt: endsAt }));
       const release = keepAwake();
       const stopClock = runClock(root, session);
       return () => {

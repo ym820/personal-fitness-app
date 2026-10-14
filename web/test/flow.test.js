@@ -123,3 +123,61 @@ test('存成 JSON 再读回来，能接着练', () => {
   restored.finishRest();
   assert.equal(restored.defaultWeight(), 90);
 });
+
+test('器械被占，换到后面的动作，做完再回来', () => {
+  const flow = new WorkoutFlow(workout, 90);
+  flow.completeSet(12, 100);
+  flow.finishRest();
+  assert.deepEqual(flow.switchable(), [1, 2]);
+  flow.switchTo(2);
+  assert.deepEqual(flow.phase, doing(2, 0));
+  assert.equal(flow.current.exerciseId, 'Plank');
+  flow.completeSet(30, 0);
+  // 平板支撑做完了，回到腿举的第 2 组
+  assert.deepEqual(flow.phase, resting(0, 1));
+  for (let guard = 0; flow.phase.type !== 'finished' && guard < 100; guard++) {
+    if (flow.phase.type === 'doingSet') flow.completeSet(12, 50);
+    else flow.finishRest();
+  }
+  assert.deepEqual(flow.completedSets.map(s => [s.exerciseId, s.setIndex]), [
+    ['Leg_Press', 0], ['Plank', 0], ['Leg_Press', 1], ['Leg_Press', 2],
+    ['Leverage_Chest_Press', 0], ['Leverage_Chest_Press', 1],
+  ]);
+});
+
+test('跳过的动作在最后补上', () => {
+  const flow = new WorkoutFlow(workout, 90);
+  for (let i = 0; i < 3; i++) {
+    flow.completeSet(12, 100);
+    flow.finishRest();
+  }
+  flow.switchTo(2);
+  flow.completeSet(30, 0);
+  assert.deepEqual(flow.phase, resting(1, 0));
+});
+
+test('休息时也能换下一个动作', () => {
+  const flow = new WorkoutFlow(workout, 90);
+  flow.completeSet(12, 100);
+  flow.switchTo(1);
+  assert.deepEqual(flow.phase, resting(1, 0));
+  assert.equal(flow.defaultWeight(), null);
+  flow.switchTo(0);
+  assert.deepEqual(flow.phase, resting(0, 1));
+  assert.equal(flow.defaultWeight(), 100);
+});
+
+test('不能换到当前动作、做完的动作或不存在的动作', () => {
+  const flow = new WorkoutFlow(workout, 90);
+  for (let i = 0; i < 3; i++) {
+    flow.completeSet(12, 100);
+    flow.finishRest();
+  }
+  for (const i of [0, 1, 7]) flow.switchTo(i);
+  assert.deepEqual(flow.phase, doing(1, 0));
+  assert.deepEqual(flow.switchable(), [2]);
+  flow.endEarly();
+  flow.switchTo(2);
+  assert.deepEqual(flow.phase, FINISHED);
+  assert.deepEqual(flow.switchable(), []);
+});
