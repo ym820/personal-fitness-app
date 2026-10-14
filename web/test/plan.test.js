@@ -1,11 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { catalog } from './fixtures.js';
+import { makeCatalog } from '../js/catalog.js';
 import { estimatedDurationSeconds, nextTemplateId, nextWorkout, totalSets } from '../js/plan.js';
 
 const day = n => new Date(n * 86_400_000).toISOString();
 const workout = (templateId, n, sets = []) => ({ id: `w${n}`, date: day(n), durationSeconds: 0, templateId, sets, deleted: false });
 const sets = (exerciseId, values, weightLb) => values.map((value, setIndex) => ({ exerciseId, setIndex, value, weightLb }));
+/** 现在的计划里没有自重动作，用一个只有卷腹的计划测自重 */
+const crunch = { exerciseId: 'Crunches', sets: 3, targetMin: 8, targetMax: 12 };
+const bodyweightCatalog = makeCatalog({
+  exercises: catalog.exercises,
+  plan: { restSeconds: 90, templates: ['A', 'B'].map(id => ({ id, nameZh: `训练 ${id}`, exercises: [crunch] })) },
+});
 const target = (next, id) => {
   const t = next.exercises.find(e => e.exerciseId === id);
   assert.ok(t, `${id} 不在这次计划里`);
@@ -31,7 +38,7 @@ test('第一次：负重动作没有重量，自重动作为 0，不提示加重
   assert.deepEqual(next.exercises.map(e => e.exerciseId), catalog.template('A').exercises.map(e => e.exerciseId));
   assert.equal(target(next, 'Leg_Press').weightLb, null);
   assert.ok(next.exercises.every(e => !e.suggestIncrease));
-  assert.equal(target(nextWorkout(catalog, [workout('A', 1)]), 'Crunches').weightLb, 0);
+  assert.equal(target(nextWorkout(bodyweightCatalog, []), 'Crunches').weightLb, 0);
 });
 
 test('照抄计划里的组数和目标', () => {
@@ -40,9 +47,9 @@ test('照抄计划里的组数和目标', () => {
   assert.equal(legPress.sets, 3);
   assert.equal(legPress.targetMin, 8);
   assert.equal(legPress.targetMax, 12);
-  const cableCrunch = target(next, 'Cable_Crunch');
-  assert.equal(cableCrunch.targetMin, 10);
-  assert.equal(cableCrunch.targetMax, 15);
+  const pallof = target(next, 'Pallof_Press');
+  assert.equal(pallof.targetMin, 8);
+  assert.equal(pallof.targetMax, 12);
 });
 
 test('所有组做满，器械加 10 lb', () => {
@@ -75,7 +82,7 @@ test('哑铃加 5 lb', () => {
 
 test('自重动作不提示加重', () => {
   const history = [workout('B', 1, sets('Crunches', [12, 12, 12], 0)), workout('A', 3)];
-  const crunches = target(nextWorkout(catalog, history), 'Crunches');
+  const crunches = target(nextWorkout(bodyweightCatalog, history), 'Crunches');
   assert.equal(crunches.weightLb, 0);
   assert.equal(crunches.suggestIncrease, false);
 });

@@ -10,7 +10,7 @@ import Testing
     }
 
     @Test func loadsBundledExercises() {
-        #expect(catalog.exercises.count == 30)
+        #expect(catalog.exercises.count == 32)
         #expect(Set(catalog.exercises.map(\.id)).count == catalog.exercises.count)
     }
 

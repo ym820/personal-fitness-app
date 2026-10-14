@@ -9,7 +9,7 @@
         { "exerciseId": "Leverage_Chest_Press", "sets": 3, "targetMin": 8, "targetMax": 12 },
         { "exerciseId": "Wide-Grip_Lat_Pulldown", "sets": 3, "targetMin": 8, "targetMax": 12 },
         { "exerciseId": "Dumbbell_Shoulder_Press", "sets": 3, "targetMin": 8, "targetMax": 12 },
-        { "exerciseId": "Cable_Crunch", "sets": 3, "targetMin": 10, "targetMax": 15 }
+        { "exerciseId": "Pallof_Press", "sets": 3, "targetMin": 8, "targetMax": 12 }
       ]
     },
     {
@@ -20,7 +20,7 @@
         { "exerciseId": "Seated_Cable_Rows", "sets": 3, "targetMin": 8, "targetMax": 12 },
         { "exerciseId": "Dumbbell_Bench_Press", "sets": 3, "targetMin": 8, "targetMax": 12 },
         { "exerciseId": "Stiff-Legged_Dumbbell_Deadlift", "sets": 3, "targetMin": 8, "targetMax": 12 },
-        { "exerciseId": "Crunches", "sets": 3, "targetMin": 8, "targetMax": 12 }
+        { "exerciseId": "Dumbbell_Side_Bend", "sets": 3, "targetMin": 10, "targetMax": 15 }
       ]
     }
   ]

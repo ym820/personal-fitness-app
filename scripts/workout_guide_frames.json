@@ -29,5 +29,7 @@
   "Alternate_Hammer_Curl": { "slug": "hammer-curl", "frames": [3, 1] },
   "Triceps_Pushdown_-_Rope_Attachment": { "slug": "rope-tricep-pushdown", "frames": [3, 1] },
   "Cable_Crunch": { "slug": "cable-crunch", "frames": [3, 1] },
-  "Dead_Bug": { "slug": "dead-bug", "frames": [3, 1] }
+  "Dead_Bug": { "slug": "dead-bug", "frames": [3, 1] },
+  "Pallof_Press": { "slug": "pallof-press", "frames": [1, 3] },
+  "Dumbbell_Side_Bend": { "slug": "dumbbell-side-bend", "frames": [3, 1] }
 }

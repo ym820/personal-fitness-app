@@ -690,5 +690,52 @@
     ],
     "unit": "reps",
     "increment": 0
+  },
+  {
+    "id": "Pallof_Press",
+    "nameZh": "Pallof 抗旋转推",
+    "nameEn": "Pallof Press",
+    "equipmentZh": "拉力器（单手把手）",
+    "equipmentEn": "Cable Machine + Handle",
+    "bodyPart": "core",
+    "primaryMuscles": [
+      "abdominals"
+    ],
+    "images": [
+      "Pallof_Press_0",
+      "Pallof_Press_1"
+    ],
+    "tipsZh": [
+      "把手调到胸口高度，侧身站在拉力器旁，离开一步让绳子绷紧",
+      "双手握把手贴在胸口，双脚与肩同宽，膝盖微屈",
+      "把手慢慢向正前方推直，停 2 秒再收回",
+      "身体始终正对前方，不要被绳子拉着转过去",
+      "做完一边转身换另一边，次数记一边的"
+    ],
+    "unit": "reps",
+    "increment": 10
+  },
+  {
+    "id": "Dumbbell_Side_Bend",
+    "nameZh": "哑铃体侧屈",
+    "nameEn": "Dumbbell Side Bend",
+    "equipmentZh": "哑铃",
+    "equipmentEn": "Dumbbell",
+    "bodyPart": "core",
+    "primaryMuscles": [
+      "abdominals"
+    ],
+    "images": [
+      "Dumbbell_Side_Bend_0",
+      "Dumbbell_Side_Bend_1"
+    ],
+    "tipsZh": [
+      "站直，一只手拿哑铃垂在身侧，另一只手放在脑后",
+      "身体向拿哑铃的一侧慢慢弯下去，不要往前弯腰",
+      "用另一侧腰腹的力量把身体拉回站直",
+      "做完一边换手做另一边，次数记一边的"
+    ],
+    "unit": "reps",
+    "increment": 5
   }
 ]

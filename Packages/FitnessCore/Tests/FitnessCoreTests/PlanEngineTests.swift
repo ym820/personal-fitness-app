@@ -17,6 +17,13 @@ import Testing
         HistoryWorkout(date: day(n), templateId: template, sets: sets)
     }
 
+    /// 现在的计划里没有自重动作，用一个只有卷腹的计划测自重
+    func bodyweightCatalog() -> Catalog {
+        let item = PlanItem(exerciseId: "Crunches", sets: 3, targetMin: 8, targetMax: 12)
+        let templates = ["A", "B"].map { WorkoutTemplate(id: $0, nameZh: "训练 \($0)", exercises: [item]) }
+        return Catalog(exercises: catalog.exercises, plan: Plan(restSeconds: 90, templates: templates))
+    }
+
     func sets(_ id: String, _ values: [Int], weight: Double) -> [HistorySet] {
         values.enumerated().map { HistorySet(exerciseId: id, setIndex: $0.offset, value: $0.element, weightLb: weight) }
     }
@@ -49,8 +56,7 @@ import Testing
         #expect(next.exercises.map(\.exerciseId) == catalog.template("A")!.exercises.map(\.exerciseId))
         #expect(try target(next, "Leg_Press").weightLb == nil)
         #expect(next.exercises.allSatisfy { !$0.suggestIncrease })
-        let nextB = PlanEngine.next(catalog: catalog, history: [workout("A", day: 1)])
-        #expect(try target(nextB, "Crunches").weightLb == 0)
+        #expect(try target(PlanEngine.next(catalog: bodyweightCatalog(), history: []), "Crunches").weightLb == 0)
     }
 
     @Test func copiesPlanTargets() throws {
@@ -59,9 +65,9 @@ import Testing
         #expect(legPress.sets == 3)
         #expect(legPress.targetMin == 8)
         #expect(legPress.targetMax == 12)
-        let cableCrunch = try target(next, "Cable_Crunch")
-        #expect(cableCrunch.targetMin == 10)
-        #expect(cableCrunch.targetMax == 15)
+        let pallof = try target(next, "Pallof_Press")
+        #expect(pallof.targetMin == 8)
+        #expect(pallof.targetMax == 12)
     }
 
     @Test func allSetsAtMaxIncreasesMachineBy10() throws {
@@ -106,7 +112,7 @@ import Testing
             workout("B", day: 1, sets("Crunches", [12, 12, 12], weight: 0)),
             workout("A", day: 3),
         ]
-        let crunches = try target(PlanEngine.next(catalog: catalog, history: history), "Crunches")
+        let crunches = try target(PlanEngine.next(catalog: bodyweightCatalog(), history: history), "Crunches")
         #expect(crunches.weightLb == 0)
         #expect(!crunches.suggestIncrease)
     }
