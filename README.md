@@ -143,3 +143,7 @@ cd Packages/FitnessCore && swift test
 - 动作示范图：[Workout Guide](https://github.com/bryllim/workout-guide)，作者 Bryl Lim，基于 [Everkinetic](https://github.com/everkinetic/data)，[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)。改动：裁掉了画布四周的空白（只改 SVG 的 viewBox），在 app 里按系统颜色染色，线条本身未改。改动后的图片同样按 CC BY-SA 4.0 授权。每个动作用哪两帧见 `scripts/workout_guide_frames.json`，重新下载用 `python3 scripts/fetch_images.py`。
 - 动作列表和英文说明：[free-exercise-db](https://github.com/yuhonas/free-exercise-db)（Unlicense）。中文名和动作要点根据它的英文说明翻译精简。
 - 示范视频：链接到 YouTube 和 B 站上的原视频，版权归原作者。
+
+## 许可证
+
+代码按 [MIT](LICENSE) 授权。动作示范图按 CC BY-SA 4.0 授权（见上面「素材来源」），不在 MIT 范围内。
