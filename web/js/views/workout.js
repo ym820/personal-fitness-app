@@ -3,6 +3,7 @@ import { isWeighted } from '../catalog.js';
 import { WorkoutFlow } from '../flow.js';
 import * as F from '../format.js';
 import { stats, thumb } from './common.js';
+import { elapsedSeconds, isPaused, pauseSession, resumeSession } from '../session.js';
 
 /** 新的进行中训练。id 在开始时就定下，结束时用它存记录，重复结束也只有一条 */
 export function startSession(workout, restSeconds) {
@@ -12,6 +13,8 @@ export function startSession(workout, restSeconds) {
     startedAt: new Date().toISOString(),
     restEndsAt: null,
     draft: null,
+    pausedAt: null,
+    pausedSeconds: 0,
   };
 }
 
@@ -30,13 +33,15 @@ export function workoutView(app) {
   return flow.phase.type === 'resting' ? restScreen(app, session, flow) : setScreen(app, session, flow);
 }
 
-/** 顶部：结束、已练时长、第几组；下面每个动作一段进度条 */
+const PAUSE_ICON = html`<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg>`;
+
+/** 顶部：结束、暂停和已练时长、第几组；下面每个动作一段进度条 */
 function header(session, flow) {
   const doneOf = id => flow.completedSets.filter(s => s.exerciseId === id).length;
   return html`
     <header class="workout-header">
       <button class="end" data-action="end">✕ 结束</button>
-      <b class="num" data-elapsed>${F.duration(elapsed(session))}</b>
+      <button class="clock num" data-action="pause" aria-label="暂停">${PAUSE_ICON}<b data-elapsed>${F.duration(elapsedSeconds(session))}</b></button>
       <span class="count num">${Math.min(flow.completedSets.length + 1, flow.totalSets)} / ${flow.totalSets}</span>
     </header>
     <div class="segments" aria-hidden="true">${flow.workout.exercises.map(e =>
@@ -83,13 +88,46 @@ function mountSwitch(root, app, session, flow, extra = () => ({})) {
   }
 }
 
-const elapsed = session => (Date.now() - Date.parse(session.startedAt)) / 1000;
+/** 暂停时盖住整个训练页：已练时长停住，休息倒计时也停住，只能继续或结束 */
+function pauseScreen(session, flow) {
+  if (!isPaused(session)) return '';
+  return html`
+    <dialog class="paused" data-paused>
+      <p class="eyebrow">已暂停</p>
+      <p class="countdown">${F.duration(elapsedSeconds(session))}</p>
+      <span class="num">已完成 ${flow.completedSets.length} / ${flow.totalSets} 组</span>
+      <div class="stack">
+        <button class="button primary" data-action="resume">继续训练<span class="dot" aria-hidden="true">▶</span></button>
+        <button class="button" data-action="end-paused">结束训练</button>
+      </div>
+    </dialog>`;
+}
 
-/** 每秒刷新顶部的已练时长 */
-function runClock(root, session) {
+/** 两个页面共用的：结束、暂停 / 继续、每秒刷新已练时长、屏幕常亮（暂停时不常亮） */
+function mountChrome(root, app, session, flow) {
+  root.querySelector('[data-action=end]').addEventListener('click', () => endWorkout(app, session, flow));
+  root.querySelector('[data-action=pause]').addEventListener('click', () => {
+    app.store.saveSession(pauseSession(app.store.loadSession()));
+    app.refresh();
+  });
+  const overlay = root.querySelector('[data-paused]');
+  if (overlay) {
+    overlay.addEventListener('cancel', event => event.preventDefault());
+    overlay.querySelector('[data-action=resume]').addEventListener('click', () => {
+      app.store.saveSession(resumeSession(app.store.loadSession()));
+      app.refresh();
+    });
+    overlay.querySelector('[data-action=end-paused]').addEventListener('click', () => endWorkout(app, session, flow));
+    overlay.showModal();
+    return () => {};
+  }
   const label = root.querySelector('[data-elapsed]');
-  const timer = setInterval(() => { label.textContent = F.duration(elapsed(session)); }, 1000);
-  return () => clearInterval(timer);
+  const timer = setInterval(() => { label.textContent = F.duration(elapsedSeconds(session)); }, 1000);
+  const release = keepAwake();
+  return () => {
+    clearInterval(timer);
+    release();
+  };
 }
 
 function setScreen(app, session, flow) {
@@ -122,7 +160,8 @@ function setScreen(app, session, flow) {
           : `每次 ±${F.weight(exercise.increment)}`, weightText, exercise.increment, 'lb', 'decimal')
         : ''}
       <div class="bottom-action"><button class="button primary" data-action="done">完成这组<span class="dot" aria-hidden="true">✓</span></button></div>
-      ${switchSheet(app, flow)}`,
+      ${switchSheet(app, flow)}
+      ${pauseScreen(session, flow)}`,
     mount(root) {
       const input = name => root.querySelector(`input[name=${name}]`);
       const done = root.querySelector('[data-action=done]');
@@ -162,14 +201,8 @@ function setScreen(app, session, flow) {
         store.saveSession({ ...session, flow: flow.toJSON(), draft: null, restEndsAt });
         app.refresh();
       });
-      root.querySelector('[data-action=end]').addEventListener('click', () => endWorkout(app, session, flow));
       mountSwitch(root, app, session, flow);
-      const release = keepAwake();
-      const stopClock = runClock(root, session);
-      return () => {
-        stopClock();
-        release();
-      };
+      return mountChrome(root, app, session, flow);
     },
   };
 }
@@ -195,7 +228,8 @@ const fitLength = text => Math.max(1, String(text).length);
 /** 休息圆环的周长，半径 132、画布 290 */
 const RING = 2 * Math.PI * 132;
 
-const secondsLeft = endsAt => Math.max(0, Math.ceil((endsAt - Date.now()) / 1000));
+/** 暂停时按暂停那一刻算，倒计时停住 */
+const secondsLeft = (endsAt, session) => Math.max(0, Math.ceil((endsAt - (session.pausedAt ?? Date.now())) / 1000));
 
 function restScreen(app, session, flow) {
   const { catalog, store } = app;
@@ -214,10 +248,10 @@ function restScreen(app, session, flow) {
         <div class="ring">
           <svg viewBox="0 0 290 290" aria-hidden="true">
             <circle class="track" cx="145" cy="145" r="132"/>
-            <circle class="bar" cx="145" cy="145" r="132" stroke-dasharray="${RING}" stroke-dashoffset="${RING * (1 - fraction(secondsLeft(endsAt)))}" data-ring/>
+            <circle class="bar" cx="145" cy="145" r="132" stroke-dasharray="${RING}" stroke-dashoffset="${RING * (1 - fraction(secondsLeft(endsAt, session)))}" data-ring/>
           </svg>
           <div class="ring-text">
-            <p class="countdown" data-countdown>${F.duration(secondsLeft(endsAt))}</p>
+            <p class="countdown" data-countdown>${F.duration(secondsLeft(endsAt, session))}</p>
             <span class="num">下一组 · 第 ${flow.position.setIndex + 1} 组</span>
           </div>
         </div>
@@ -235,7 +269,8 @@ function restScreen(app, session, flow) {
         <button class="button" data-action="add">+30 秒</button>
         <button class="button primary" data-action="skip">跳过</button>
       </div>
-      ${switchSheet(app, flow)}`,
+      ${switchSheet(app, flow)}
+      ${pauseScreen(session, flow)}`,
     mount(root) {
       const label = root.querySelector('[data-countdown]');
       const ring = root.querySelector('[data-ring]');
@@ -246,27 +281,24 @@ function restScreen(app, session, flow) {
       };
       // 按实际时间算，锁屏回来也是对的
       const tick = () => {
-        const left = secondsLeft(endsAt);
+        const left = secondsLeft(endsAt, session);
         label.textContent = F.duration(left);
         ring.style.strokeDashoffset = RING * (1 - fraction(left));
         if (left === 0) finishRest();
       };
-      const timer = setInterval(tick, 250);
+      const timer = isPaused(session) ? null : setInterval(tick, 250);
       root.querySelector('[data-action=add]').addEventListener('click', () => {
         endsAt += 30_000;
         store.saveSession({ ...session, restEndsAt: endsAt });
         tick();
       });
       root.querySelector('[data-action=skip]').addEventListener('click', finishRest);
-      root.querySelector('[data-action=end]').addEventListener('click', () => endWorkout(app, session, flow));
       // 休息倒计时照常走，只换休息完要做的动作
       mountSwitch(root, app, session, flow, () => ({ restEndsAt: endsAt }));
-      const release = keepAwake();
-      const stopClock = runClock(root, session);
+      const stopChrome = mountChrome(root, app, session, flow);
       return () => {
         clearInterval(timer);
-        stopClock();
-        release();
+        stopChrome();
       };
     },
   };
@@ -292,7 +324,7 @@ function finish(app, session, flow) {
   store.addWorkout({
     id: session.id,
     date: session.startedAt,
-    durationSeconds: Math.round((Date.now() - Date.parse(session.startedAt)) / 1000),
+    durationSeconds: Math.round(elapsedSeconds(session)),
     templateId: flow.workout.templateId,
     sets: flow.completedSets,
     deleted: false,

@@ -199,6 +199,27 @@ body.in-workout .bottom-action { bottom: 0; margin-top: auto; padding-bottom: ca
 .workout-header .end { justify-self: start; background: none; border: 0; padding: 8px 0; color: var(--secondary); }
 .workout-header .count { justify-self: end; color: var(--secondary); }
 .workout-header b { font-weight: 700; }
+.workout-header .clock {
+  display: flex; align-items: center; gap: 7px; padding: 7px 14px 7px 12px;
+  border: 0; border-radius: 999px; background: var(--fill);
+  transition: transform 0.16s var(--ease-out);
+}
+.workout-header .clock:active { transform: scale(0.94); }
+.workout-header .clock svg { width: 12px; height: 12px; fill: currentColor; }
+
+/* 暂停：全屏盖住训练页，中间大字显示已练时长 */
+.paused {
+  position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0;
+  padding: calc(var(--safe-top) + 20px) 20px calc(16px + var(--safe-bottom)); border: 0;
+  background: var(--bg); color: var(--text);
+  flex-direction: column; align-items: center; justify-content: center; text-align: center;
+}
+.paused[open] { display: flex; animation: paused-in 0.25s var(--ease-out); }
+.paused .countdown { margin-top: 12px; }
+.paused > span { margin-top: 8px; font-size: 15px; color: var(--secondary); }
+.paused .stack { width: 100%; max-width: 600px; margin-top: auto; }
+.paused .eyebrow { margin-top: auto; }
+@keyframes paused-in { from { opacity: 0; } }
 .segments { display: flex; gap: 4px; margin-top: 10px; }
 .segments i { flex: 1; height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--ink) var(--p), var(--fill) var(--p)); }
 
