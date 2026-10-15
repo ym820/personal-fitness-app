@@ -7,6 +7,10 @@ if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then
   exit 0
 fi
 
+# 云端容器的全局 git 身份是 Claude，这个仓库里的提交改署 Yikai 的名字（Claude 写在 Co-Authored-By 里）
+git -C "$CLAUDE_PROJECT_DIR" config user.name "Yikai Mao"
+git -C "$CLAUDE_PROJECT_DIR" config user.email "yikai.mao@outlook.com"
+
 SWIFT_TAG="6.1-noble"
 SWIFT_HOME="$HOME/swift"
 
