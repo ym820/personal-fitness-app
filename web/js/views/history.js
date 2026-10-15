@@ -1,6 +1,6 @@
 import { html } from '../dom.js';
 import * as F from '../format.js';
-import { stats, templateName } from './common.js';
+import { confirmSheet, stats, templateName } from './common.js';
 
 export function historyView(app) {
   const { catalog, store } = app;
@@ -43,8 +43,8 @@ export function workoutDetailView(app, id) {
       })}
       <button class="button destructive" data-action="delete">删除这次训练</button>`,
     mount(root) {
-      root.querySelector('[data-action=delete]').addEventListener('click', () => {
-        if (!confirm('删除这次训练？')) return;
+      root.querySelector('[data-action=delete]').addEventListener('click', async () => {
+        if (!await confirmSheet({ title: '删除这次训练？', message: '删除后无法恢复。', confirmLabel: '删除', danger: true })) return;
         store.markDeleted(id);
         app.sync();
         app.navigate('#/history');

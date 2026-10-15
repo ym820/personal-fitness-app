@@ -2,7 +2,7 @@ import { html } from '../dom.js';
 import { isWeighted } from '../catalog.js';
 import { WorkoutFlow } from '../flow.js';
 import * as F from '../format.js';
-import { stats, thumb } from './common.js';
+import { confirmSheet, stats, thumb } from './common.js';
 import { elapsedSeconds, isPaused, pauseSession, resumeSession } from '../session.js';
 
 /** 新的进行中训练。id 在开始时就定下，结束时用它存记录，重复结束也只有一条 */
@@ -304,11 +304,12 @@ function restScreen(app, session, flow) {
   };
 }
 
-function endWorkout(app, session, flow) {
-  const message = flow.completedSets.length
-    ? '结束训练？已完成的组会保存。'
-    : '结束训练？还没有完成任何一组，不会保存记录。';
-  if (!confirm(message)) return;
+async function endWorkout(app, session, flow) {
+  const done = flow.completedSets.length;
+  const ok = await confirmSheet(done
+    ? { title: '结束训练？', message: `已完成 ${done} / ${flow.totalSets} 组，会保存到记录里。`, confirmLabel: '结束并保存', cancelLabel: '继续训练' }
+    : { title: '结束训练？', message: '还没有完成任何一组，不会保存记录。', confirmLabel: '结束', cancelLabel: '继续训练', danger: true });
+  if (!ok) return;
   flow.endEarly();
   finish(app, session, flow);
 }

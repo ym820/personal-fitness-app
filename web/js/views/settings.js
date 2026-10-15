@@ -1,5 +1,6 @@
 import { html } from '../dom.js';
 import * as F from '../format.js';
+import { confirmSheet } from './common.js';
 
 export function settingsView(app) {
   const { store } = app;
@@ -46,8 +47,8 @@ export function settingsView(app) {
         app.sync();
         app.refresh();
       });
-      root.querySelector('[data-action=clear]')?.addEventListener('click', () => {
-        if (!confirm('清除令牌？训练记录还会留在这台手机上。')) return;
+      root.querySelector('[data-action=clear]')?.addEventListener('click', async () => {
+        if (!await confirmSheet({ title: '清除令牌？', message: '训练记录还会留在这台手机上。', confirmLabel: '清除', danger: true })) return;
         store.saveSettings({ ...store.loadSettings(), token: '' });
         store.saveSyncStatus({ lastSuccessAt: null, error: null });
         app.refresh();
