@@ -20,7 +20,7 @@
         { "exerciseId": "Seated_Cable_Rows", "sets": 3, "targetMin": 8, "targetMax": 12 },
         { "exerciseId": "Dumbbell_Bench_Press", "sets": 3, "targetMin": 8, "targetMax": 12 },
         { "exerciseId": "Stiff-Legged_Dumbbell_Deadlift", "sets": 3, "targetMin": 8, "targetMax": 12 },
-        { "exerciseId": "Dumbbell_Side_Bend", "sets": 3, "targetMin": 10, "targetMax": 15 }
+        { "exerciseId": "Dead_Bug", "sets": 3, "targetMin": 8, "targetMax": 12 }
       ]
     }
   ]
